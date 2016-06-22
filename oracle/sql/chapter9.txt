@@ -1,0 +1,552 @@
+(A) Tradition Method with WHERE keyword
+(B) Tradition Method with FROM keyword
+ 
+SQL> SET linesize 200;
+SQL> SET pagesize 200;
+
+Hands On Assignemnt
+
+1.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, p.name, p.phone
+  2  FROM books b, publisher p
+  3* WHERE b.pubid = p.pubid
+SQL> /
+
+TITLE                          NAME                    PHONE
+------------------------------ ----------------------- ------------
+BODYBUILD IN 10 MINUTES A DAY  READING MATERIALS INC.  800-555-9743
+REVENGE OF MICKEY              PRINTING IS US          000-714-8321
+BUILDING A CAR WITH TOOTHPICKS PUBLISH OUR WAY         010-410-0010
+DATABASE IMPLEMENTATION        AMERICAN PUBLISHING     800-555-1211
+COOKING WITH MUSHROOMS         READING MATERIALS INC.  800-555-9743
+HOLY GRAIL OF ORACLE           AMERICAN PUBLISHING     800-555-1211
+HANDCRANKED COMPUTERS          AMERICAN PUBLISHING     800-555-1211
+E-BUSINESS THE EASY WAY        PUBLISH OUR WAY         010-410-0010
+PAINLESS CHILD-REARING         REED-N-RITE             800-555-8284
+THE WOK WAY TO COOK            READING MATERIALS INC.  800-555-9743
+BIG BEAR AND LITTLE DOVE       REED-N-RITE             800-555-8284
+HOW TO GET FASTER PIZZA        READING MATERIALS INC.  800-555-9743
+HOW TO MANAGE THE MANAGER      PRINTING IS US          000-714-8321
+SHORTEST POEMS                 REED-N-RITE             800-555-8284
+
+14 rows selected.
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, p.name, p.phone
+  2* FROM books b JOIN publisher p USING (pubid)
+SQL> /
+
+TITLE                          NAME                    PHONE
+------------------------------ ----------------------- ------------
+BODYBUILD IN 10 MINUTES A DAY  READING MATERIALS INC.  800-555-9743
+REVENGE OF MICKEY              PRINTING IS US          000-714-8321
+BUILDING A CAR WITH TOOTHPICKS PUBLISH OUR WAY         010-410-0010
+DATABASE IMPLEMENTATION        AMERICAN PUBLISHING     800-555-1211
+COOKING WITH MUSHROOMS         READING MATERIALS INC.  800-555-9743
+HOLY GRAIL OF ORACLE           AMERICAN PUBLISHING     800-555-1211
+HANDCRANKED COMPUTERS          AMERICAN PUBLISHING     800-555-1211
+E-BUSINESS THE EASY WAY        PUBLISH OUR WAY         010-410-0010
+PAINLESS CHILD-REARING         REED-N-RITE             800-555-8284
+THE WOK WAY TO COOK            READING MATERIALS INC.  800-555-9743
+BIG BEAR AND LITTLE DOVE       REED-N-RITE             800-555-8284
+HOW TO GET FASTER PIZZA        READING MATERIALS INC.  800-555-9743
+HOW TO MANAGE THE MANAGER      PRINTING IS US          000-714-8321
+SHORTEST POEMS                 REED-N-RITE             800-555-8284
+
+14 rows selected.
+
+
+
+2.
+
+
+(A) TRADITION METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, o.order#
+  2  FROM customers c, orders o
+  3  WHERE  c.customer# = o.customer# AND o.shipdate IS NULL
+  4* ORDER BY o.orderdate
+SQL> /
+
+LASTNAME   FIRSTNAME      ORDER#
+---------- ---------- ----------
+NELSON     BECCA            1012
+SMITH      LEILA            1016
+FALAH      KENNETH          1015
+MONTIASA   GREG             1019
+MORALES    BONITA           1018
+JONES      KENNETH          1020
+
+6 rows selected.
+
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, o.order#
+  2  FROM customers c JOIN orders o USING (customer#)
+  3  WHERE o.shipdate IS NULL
+  4* ORDER BY o.orderdate
+SQL> /
+
+LASTNAME   FIRSTNAME      ORDER#
+---------- ---------- ----------
+NELSON     BECCA            1012
+SMITH      LEILA            1016
+FALAH      KENNETH          1015
+MONTIASA   GREG             1019
+MORALES    BONITA           1018
+JONES      KENNETH          1020
+
+6 rows selected.
+
+
+
+
+3.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1    SELECT c.lastname, c.firstname, c.state, b.title, b.category
+  2    FROM Customers c, Orders o, Orderitems oi, Books b
+  3    WHERE c.customer# = o.customer# AND o.order#=oi.order# AND oi.isbn = b.isbn
+  4*            AND b.category = 'COMPUTER'AND c.state = 'FL'
+  5  /
+
+LASTNAME   FIRSTNAME  ST TITLE                          CATEGORY
+---------- ---------- -- ------------------------------ ------------
+MORALES    BONITA     FL DATABASE IMPLEMENTATION        COMPUTER
+MORALES    BONITA     FL DATABASE IMPLEMENTATION        COMPUTER
+SMITH      LEILA      FL E-BUSINESS THE EASY WAY        COMPUTER
+
+
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, c.state, b.title, b.category
+  2  FROM Customers c
+  3       JOIN Orders o      USING (customer#)
+  4       JOIN Orderitems oi USING (order#)
+  5       JOIN Books b       USING (isbn)
+  6* WHERE b.category = 'COMPUTER'AND c.state = 'FL'
+SQL> /
+
+LASTNAME   FIRSTNAME  ST TITLE                          CATEGORY
+---------- ---------- -- ------------------------------ ------------
+MORALES    BONITA     FL DATABASE IMPLEMENTATION        COMPUTER
+MORALES    BONITA     FL DATABASE IMPLEMENTATION        COMPUTER
+SMITH      LEILA      FL E-BUSINESS THE EASY WAY        COMPUTER
+ 
+
+
+4.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT UNIQUE b.title
+  2  FROM Customers c , Orders o, Orderitems oi, Books b
+  3  WHERE  c.customer# = o.customer# AND o.order#=oi.order# AND oi.isbn = b.isbn
+  4*    AND c.firstname ='JAKE' AND c.lastname ='LUCAS'
+  5  /
+
+TITLE
+------------------------------
+PAINLESS CHILD-REARING
+HOW TO MANAGE THE MANAGER
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1    SELECT UNIQUE b.title
+  2    FROM Customers c JOIN Orders o USING (customer#)
+  3                     JOIN Orderitems oi USING (order#)
+  4                     JOIN Books b USING (ISBN)
+  5*   WHERE  c.firstname ='JAKE' AND c.lastname ='LUCAS'
+  6  /
+
+TITLE
+------------------------------
+PAINLESS CHILD-REARING
+HOW TO MANAGE THE MANAGER
+
+
+
+
+5.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, oi.paideach-b.cost AS "Profit"
+  2  FROM Customers c , Orders o, Orderitems oi, Books b
+  3  WHERE  c.customer# = o.customer# AND o.order#=oi.order# AND oi.isbn = b.isbn
+  4       AND c.firstname ='JAKE' AND c.lastname ='LUCAS'
+  5* ORDER BY (oi.paideach - b.cost)
+SQL> /
+
+TITLE                              Profit
+------------------------------ ----------
+HOW TO MANAGE THE MANAGER           16.55
+PAINLESS CHILD-REARING              37.45
+PAINLESS CHILD-REARING              37.45
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, oi.paideach-b.cost AS "Profit"
+  2  FROM Customers c JOIN Orders o USING (customer#)
+  3              JOIN Orderitems oi USING (order#)
+  4                   JOIN Books b USING (ISBN)
+  5  WHERE  c.firstname ='JAKE' AND c.lastname ='LUCAS'
+  6* ORDER BY (oi.paideach - b.cost)
+SQL> /
+
+TITLE                              Profit
+------------------------------ ----------
+HOW TO MANAGE THE MANAGER           16.55
+PAINLESS CHILD-REARING              37.45
+PAINLESS CHILD-REARING              37.45
+
+
+
+6.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, a.Lname, a.Fname
+  2  FROM Books b, Bookauthor ba, Author a
+  3* WHERE b.isbn = ba.isbn AND ba.authorid = a.authorid AND a.lname = 'ADAMS'
+SQL> /
+
+TITLE                          LNAME      FNAME
+------------------------------ ---------- ----------
+DATABASE IMPLEMENTATION        ADAMS      JUAN
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, a.Lname, a.Fname
+  2  FROM Books b JOIN Bookauthor USING (isbn)
+  3               JOIN Author a   USING (authorid)
+  4* WHERE  a.lname = 'ADAMS'
+SQL> /
+
+TITLE                          LNAME      FNAME
+------------------------------ ---------- ----------
+DATABASE IMPLEMENTATION        ADAMS      JUAN
+
+
+
+7.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, b.title, b.retail, p.gift
+  2  FROM customers c, orders o, orderitems oi, books b, promotion p
+  3  WHERE c.customer# = o.customer# AND o.order#=oi.order# AND oi.isbn = b.isbn
+  4        AND b.title = 'SHORTEST POEMS'
+  5*       AND b.retail BETWEEN p.minretail AND p. maxretail
+SQL> /
+
+LASTNAME   FIRSTNAME  TITLE                              RETAIL GIFT
+---------- ---------- ------------------------------ ---------- ---------------
+MONTIASA   GREG       SHORTEST POEMS                      39.95 BOOK COVER
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, b.title, b.retail, p.gift
+  2  FROM customers c JOIN orders o USING (customer#)
+  3                   JOIN orderitems oi USING (order#)
+  4                   JOIN books b USING (isbn) JOIN promotion p ON b.retail BETWEEN p.minretail AND p. maxretail
+  5* WHERE b.title = 'SHORTEST POEMS'
+  6  /
+
+LASTNAME   FIRSTNAME  TITLE                              RETAIL GIFT
+---------- ---------- ------------------------------ ---------- ---------------
+MONTIASA   GREG       SHORTEST POEMS                      39.95 BOOK COVER
+
+
+
+8.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, b.title, a.Lname, a.Fname
+  2  FROM customers c, orders o, orderitems oi, books b, bookauthor ba, author a
+  3  WHERE c.customer# = o.customer# AND o.order# = oi.order# AND oi.isbn=b.isbn AND b.isbn = ba.isbn AND ba.authorid = a.authorid
+  4*    AND c.lastname ='NELSON' AND c.firstname = 'BECCA'
+SQL> /
+
+LASTNAME   FIRSTNAME  TITLE                          LNAME      FNAME
+---------- ---------- ------------------------------ ---------- ----------
+NELSON     BECCA      BIG BEAR AND LITTLE DOVE       ROBINSON   ROBERT
+NELSON     BECCA      HANDCRANKED COMPUTERS          WHITE      WILLIAM
+NELSON     BECCA      HANDCRANKED COMPUTERS          WHITE      LISA
+NELSON     BECCA      PAINLESS CHILD-REARING         BAKER      JACK
+NELSON     BECCA      PAINLESS CHILD-REARING         FIELDS     OSCAR
+NELSON     BECCA      PAINLESS CHILD-REARING         ROBINSON   ROBERT
+NELSON     BECCA      REVENGE OF MICKEY              JONES      JANICE
+
+7 rows selected.
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT c.lastname, c.firstname, b.title, a.Lname, a.Fname
+  2  FROM customers c JOIN orders o USING (customer#)
+  3                   JOIN orderitems oi USING (order#)
+  4                   JOIN books b USING (isbn)
+  5                   JOIN bookauthor ba USING (isbn)
+  6                   JOIN author a USING (authorid)
+  7* WHERE c.lastname ='NELSON' AND c.firstname = 'BECCA'
+SQL> /
+
+LASTNAME   FIRSTNAME  TITLE                          LNAME      FNAME
+---------- ---------- ------------------------------ ---------- ----------
+NELSON     BECCA      BIG BEAR AND LITTLE DOVE       ROBINSON   ROBERT
+NELSON     BECCA      HANDCRANKED COMPUTERS          WHITE      WILLIAM
+NELSON     BECCA      HANDCRANKED COMPUTERS          WHITE      LISA
+NELSON     BECCA      PAINLESS CHILD-REARING         BAKER      JACK
+NELSON     BECCA      PAINLESS CHILD-REARING         FIELDS     OSCAR
+NELSON     BECCA      PAINLESS CHILD-REARING         ROBINSON   ROBERT
+NELSON     BECCA      REVENGE OF MICKEY              JONES      JANICE
+
+7 rows selected.
+
+
+
+
+9.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1   SELECT b.title, o.order#, c.state
+  2   FROM Customers c, Orders o, Orderitems oi, Books b
+  3   WHERE b.isbn = oi.isbn (+)
+  4     AND oi.order# = o.order# (+)
+  5*    AND o.customer# = c.customer# (+)
+SQL> /
+
+TITLE                              ORDER# ST
+------------------------------ ---------- --
+COOKING WITH MUSHROOMS               1018 FL
+DATABASE IMPLEMENTATION              1018 FL
+DATABASE IMPLEMENTATION              1003 FL
+BODYBUILD IN 10 MINUTES A DAY        1003 FL
+COOKING WITH MUSHROOMS               1003 FL
+PAINLESS CHILD-REARING               1016 FL
+E-BUSINESS THE EASY WAY              1006 FL
+COOKING WITH MUSHROOMS               1008 ID
+COOKING WITH MUSHROOMS               1009 WA
+REVENGE OF MICKEY                    1009 WA
+COOKING WITH MUSHROOMS               1000 WA
+REVENGE OF MICKEY                    1014 TX
+HOLY GRAIL OF ORACLE                 1007 TX
+E-BUSINESS THE EASY WAY              1007 TX
+BIG BEAR AND LITTLE DOVE             1007 TX
+DATABASE IMPLEMENTATION              1007 TX
+COOKING WITH MUSHROOMS               1020 WY
+PAINLESS CHILD-REARING               1011 GA
+HOW TO MANAGE THE MANAGER            1001 GA
+PAINLESS CHILD-REARING               1001 GA
+DATABASE IMPLEMENTATION              1002 IL
+DATABASE IMPLEMENTATION              1013 WY
+BIG BEAR AND LITTLE DOVE             1017 FL
+BIG BEAR AND LITTLE DOVE             1012 MI
+HANDCRANKED COMPUTERS                1012 MI
+PAINLESS CHILD-REARING               1012 MI
+REVENGE OF MICKEY                    1012 MI
+REVENGE OF MICKEY                    1019 GA
+SHORTEST POEMS                       1005 GA
+DATABASE IMPLEMENTATION              1010 NJ
+COOKING WITH MUSHROOMS               1015 NJ
+PAINLESS CHILD-REARING               1004 NJ
+BUILDING A CAR WITH TOOTHPICKS
+HOW TO GET FASTER PIZZA
+THE WOK WAY TO COOK
+
+35 rows selected.
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1   SELECT b.title, order#, c.state
+  2   FROM books b LEFT OUTER JOIN orderitems oi USING (isb
+  3           LEFT OUTER JOIN orders o USING (order#)
+  4*          LEFT OUTER JOIN customers c USING (customer#)
+SQL> /
+
+TITLE                              ORDER# ST
+------------------------------ ---------- --
+COOKING WITH MUSHROOMS               1018 FL
+DATABASE IMPLEMENTATION              1018 FL
+DATABASE IMPLEMENTATION              1003 FL
+BODYBUILD IN 10 MINUTES A DAY        1003 FL
+COOKING WITH MUSHROOMS               1003 FL
+PAINLESS CHILD-REARING               1016 FL
+E-BUSINESS THE EASY WAY              1006 FL
+COOKING WITH MUSHROOMS               1008 ID
+COOKING WITH MUSHROOMS               1009 WA
+REVENGE OF MICKEY                    1009 WA
+COOKING WITH MUSHROOMS               1000 WA
+REVENGE OF MICKEY                    1014 TX
+HOLY GRAIL OF ORACLE                 1007 TX
+E-BUSINESS THE EASY WAY              1007 TX
+BIG BEAR AND LITTLE DOVE             1007 TX
+DATABASE IMPLEMENTATION              1007 TX
+COOKING WITH MUSHROOMS               1020 WY
+PAINLESS CHILD-REARING               1011 GA
+HOW TO MANAGE THE MANAGER            1001 GA
+PAINLESS CHILD-REARING               1001 GA
+DATABASE IMPLEMENTATION              1002 IL
+DATABASE IMPLEMENTATION              1013 WY
+BIG BEAR AND LITTLE DOVE             1017 FL
+BIG BEAR AND LITTLE DOVE             1012 MI
+HANDCRANKED COMPUTERS                1012 MI
+PAINLESS CHILD-REARING               1012 MI
+REVENGE OF MICKEY                    1012 MI
+REVENGE OF MICKEY                    1019 GA
+SHORTEST POEMS                       1005 GA
+DATABASE IMPLEMENTATION              1010 NJ
+COOKING WITH MUSHROOMS               1015 NJ
+PAINLESS CHILD-REARING               1004 NJ
+BUILDING A CAR WITH TOOTHPICKS
+HOW TO GET FASTER PIZZA
+THE WOK WAY TO COOK
+
+35 rows selected.
+
+
+
+10.
+
+
+(A) TRADITIONAL METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT e.fname, e.lname, e.job, m.fname "Mgr First", m.lname "Mgr Last"
+  2  FROM employees e, employees m
+  3  WHERE e.MGR = m.empno(+)
+  4* ORDER BY m.lname, m.fname
+SQL> /
+
+FNAME           LNAME                JOB       Mgr First       Mgr Last
+--------------- -------------------- --------- --------------- --------------------
+SUE             STUART               MTech1    LARRY           JONES
+SAM             SMITH                GTech1    BEN             KING
+JIM             POTTS                GTech1    BEN             KING
+LARRY           JONES                MTech2    BEN             KING
+BEN             KING                 GTECH2
+
+(B) ANSI METHOD
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT e.fname, e.lname, e.job, m.fname "Mgr First", m.lname "Mgr Last"
+  2  FROM employees e LEFT OUTER JOIN employees m ON e.MGR = m.empno
+  3* ORDER BY m.lname, m.fname
+SQL> /
+
+FNAME           LNAME                JOB       Mgr First       Mgr Last
+--------------- -------------------- --------- --------------- --------------------
+SUE             STUART               MTech1    LARRY           JONES
+SAM             SMITH                GTech1    BEN             KING
+JIM             POTTS                GTech1    BEN             KING
+LARRY           JONES                MTech2    BEN             KING
+BEN             KING                 GTECH2
+
+
+
+Advance Challenge 
+
+1.
+
+SALES PROMOTION:
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, p.name, b.retail-b.cost AS "Profit", promo.gift
+  2  FROM books b JOIN publisher p USING (PubID)
+  3  JOIN promotion promo ON b.retail BETWEEN promo.minretail AND promo.maxretail
+  4* ORDER BY b.retail-b.cost
+  5  /
+
+TITLE                          NAME                        Profit GIFT
+------------------------------ ----------------------- ---------- ---------------
+HANDCRANKED COMPUTERS          AMERICAN PUBLISHING            3.2 BOOK LABELS
+BIG BEAR AND LITTLE DOVE       REED-N-RITE                   3.63 BOOKMARKER
+COOKING WITH MUSHROOMS         READING MATERIALS INC.        7.45 BOOK LABELS
+REVENGE OF MICKEY              PRINTING IS US                 7.8 BOOK LABELS
+THE WOK WAY TO COOK            READING MATERIALS INC.        9.75 BOOK COVER
+HOW TO GET FASTER PIZZA        READING MATERIALS INC.        12.1 BOOK COVER
+BODYBUILD IN 10 MINUTES A DAY  READING MATERIALS INC.        12.2 BOOK COVER
+HOW TO MANAGE THE MANAGER      PRINTING IS US               16.55 BOOK COVER
+E-BUSINESS THE EASY WAY        PUBLISH OUR WAY               16.6 BOOK COVER
+SHORTEST POEMS                 REED-N-RITE                   18.1 BOOK COVER
+BUILDING A CAR WITH TOOTHPICKS PUBLISH OUR WAY              22.15 FREE SHIPPING
+DATABASE IMPLEMENTATION        AMERICAN PUBLISHING          24.55 BOOK COVER
+HOLY GRAIL OF ORACLE           AMERICAN PUBLISHING           28.7 FREE SHIPPING
+PAINLESS CHILD-REARING         REED-N-RITE                  41.95 FREE SHIPPING
+
+14 rows selected.
+
+
+BOOKS THAT DON'T SELL:
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT isbn, b.title
+  2  FROM books b LEFT OUTER JOIN ORDERITEMS o USING (isbn)
+  3  MINUS
+  4  SELECT isbn, b.title
+  5  FROM books b JOIN ORDERITEMS o USING (isbn)
+  6* ORDER BY title
+SQL> /
+
+ISBN       TITLE
+---------- ------------------------------
+4981341710 BUILDING A CAR WITH TOOTHPICKS
+0132149871 HOW TO GET FASTER PIZZA
+0299282519 THE WOK WAY TO COOK

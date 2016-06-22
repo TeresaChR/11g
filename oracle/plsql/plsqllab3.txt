@@ -1,0 +1,521 @@
+Chapter 3 lab
+
+3-1
+
+5.
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+  lv_ship_date bb_basketstatus.dtstage%TYPE;
+  lv_shipper_txt bb_basketstatus.shipper%TYPE;
+  lv_ship_num bb_basketstatus.shippingnum%TYPE;
+  lv_bask_num bb_basketstatus.idbasket%TYPE := 3;
+BEGIN
+  SELECT dtstage, shipper, shippingnum
+   INTO lv_ship_date, lv_shipper_txt, lv_ship_num
+   FROM bb_basketstatus
+   WHERE idbasket = lv_bask_num
+    AND idstage = 5;
+  DBMS_OUTPUT.PUT_LINE('Date Shipped: '||lv_ship_date);
+  DBMS_OUTPUT.PUT_LINE('Shipper: '||lv_shipper_txt);
+  DBMS_OUTPUT.PUT_LINE('Shipping #: '||lv_ship_num);
+END;
+
+PL/SQL procedure successfully completed.
+
+Date Shipped: 25-JAN-12
+Shipper: UPS
+Shipping #: ZW845584GD89H569
+
+**********************************************************************************
+
+7.
+
+Error starting at line : 3 in command -
+DECLARE
+  lv_ship_date bb_basketstatus.dtstage%TYPE;
+  lv_shipper_txt bb_basketstatus.shipper%TYPE;
+  lv_ship_num bb_basketstatus.shippingnum%TYPE;
+  lv_bask_num bb_basketstatus.idbasket%TYPE := 7;
+BEGIN
+  SELECT dtstage, shipper, shippingnum
+   INTO lv_ship_date, lv_shipper_txt, lv_ship_num
+   FROM bb_basketstatus
+   WHERE idbasket = lv_bask_num
+    AND idstage = 5;
+  DBMS_OUTPUT.PUT_LINE('Date Shipped: '||lv_ship_date);
+  DBMS_OUTPUT.PUT_LINE('Shipper: '||lv_shipper_txt);
+  DBMS_OUTPUT.PUT_LINE('Shipping #: '||lv_ship_num);
+END;
+Error report -
+ORA-01403: no data found
+ORA-06512: at line 7
+01403. 00000 -  "no data found"
+*Cause:    No data was found from the objects.
+*Action:   There was no data from the objects which may be due to end of fetch.
+
+***********************************************************************************
+
+3-2
+
+4.
+
+DECLARE
+  rec_ship bb_basketstatus%ROWTYPE;
+  lv_bask_num bb_basketstatus.idbasket%TYPE := 3;
+BEGIN
+  SELECT *
+   INTO rec_ship
+   FROM bb_basketstatus
+   WHERE idbasket =  lv_bask_num
+    AND idstage = 5;
+  DBMS_OUTPUT.PUT_LINE('Date Shipped: '||rec_ship.dtstage);
+  DBMS_OUTPUT.PUT_LINE('Shipper: '||rec_ship.shipper);
+  DBMS_OUTPUT.PUT_LINE('Shipping #: '||rec_ship.shippingnum);
+  DBMS_OUTPUT.PUT_LINE('Notes: '||rec_ship.notes);
+END;
+
+PL/SQL procedure successfully completed.
+
+Date Shipped: 25-JAN-12
+Shipper: UPS
+Shipping #: ZW845584GD89H569
+Notes: Customer called to confirm shipment
+
+*********************************************************************************
+
+3-3
+
+3.
+
+SELECT SUM(total)
+FROM bb_basket
+WHERE idShopper = 22
+AND orderplaced = 1
+GROUP BY idshopper;
+
+SUM(TOTAL)
+----------
+    210.21
+
+4.
+
+DECLARE
+ lv_total_num NUMBER(6,2);
+ lv_rating_txt VARCHAR2(4);
+ lv_shop_num bb_basket.idshopper%TYPE := 22;
+BEGIN
+ SELECT SUM(total)
+  into lv_total_num
+
+  FROM bb_basket
+  WHERE idShopper = 22
+    AND orderplaced = 1
+  GROUP BY idshopper;
+  IF lv_total_num >= 200 THEN
+    lv_rating_txt:='high';
+    elsif lv_total_num >= 100 and lv_total_num < 200 THEN
+      lv_rating_txt:='mid';
+      elsif lv_total_num < 100 THEN
+        lv_rating_txt:='low';
+  
+	
+  END IF; 
+   DBMS_OUTPUT.PUT_LINE('Shopper '||lv_shop_num||' is rated '||lv_rating_txt);
+END;
+
+PL/SQL procedure successfully completed.
+
+Shopper 22 is rated high
+
+DECLARE
+ lv_total_num NUMBER(6,2);
+ lv_rating_txt VARCHAR2(4);
+ lv_shop_num bb_basket.idshopper%TYPE := 23;
+BEGIN
+ SELECT SUM(total)
+  into lv_total_num
+
+  FROM bb_basket
+  WHERE idShopper = 23
+    AND orderplaced = 1
+  GROUP BY idshopper;
+  IF lv_total_num >= 200 THEN
+    lv_rating_txt:='high';
+    elsif lv_total_num >= 100 and lv_total_num < 200 THEN
+      lv_rating_txt:='mid';
+      elsif lv_total_num < 100 THEN
+        lv_rating_txt:='low';
+  
+	
+  END IF; 
+   DBMS_OUTPUT.PUT_LINE('Shopper '||lv_shop_num||' is rated '||lv_rating_txt||' because they spent '||lv_total_num||' total');
+END;
+
+PL/SQL procedure successfully completed.
+
+Shopper 23 is rated low because they spent 81.75 total
+
+************************************************************************************
+
+3-4
+
+4.
+
+SELECT SUM(total)
+FROM bb_basket
+WHERE idShopper = 22
+AND orderplaced = 1
+GROUP BY idshopper;
+
+SUM(TOTAL)
+----------
+    210.21
+
+5.
+
+
+DECLARE
+ lv_total_num NUMBER(6,2);
+ lv_rating_txt VARCHAR2(4);
+ lv_shop_num bb_basket.idshopper%TYPE := 22;
+BEGIN
+
+	SELECT SUM(total)
+  into lv_total_num
+	FROM bb_basket
+	WHERE idShopper = 22
+	AND orderplaced = 1
+	GROUP BY idshopper;
+   case 
+      when lv_total_num >= 200 then dbms_output.put_line('High');
+      when lv_total_num >= 100 and lv_total_num < 200 then dbms_output.put_line('Mid');
+      when lv_total_num < 100 then dbms_output.put_line('Low');
+     
+      else dbms_output.put_line('No Rating');
+   end case;
+END;
+
+PL/SQL procedure successfully completed.
+
+High
+
+
+DECLARE
+ lv_total_num NUMBER(6,2);
+ lv_rating_txt VARCHAR2(4);
+ lv_shop_num bb_basket.idshopper%TYPE := 23;
+BEGIN
+
+	SELECT SUM(total)
+  into lv_total_num
+	FROM bb_basket
+	WHERE idShopper = 23
+	AND orderplaced = 1
+	GROUP BY idshopper;
+   case 
+      when lv_total_num >= 200 then dbms_output.put_line('High');
+      when lv_total_num >= 100 and lv_total_num < 200 then dbms_output.put_line('Mid');
+      when lv_total_num < 100 then dbms_output.put_line('Low');
+     
+      else dbms_output.put_line('No Rating');
+   end case;
+END;
+
+PL/SQL procedure successfully completed.
+
+Low
+
+**********************************************************************************
+
+3-5
+
+Brewbean’s wants to include a feature in its application that calculates the total amount (quantity)
+of a specified item that can be purchased with a given amount of money. Create a block with a
+WHILE loop to increment the item’s cost until the dollar value is met. Test first with a total spending
+amount of $100 and product ID 4. Then test with an amount and a product of your choice. Use
+initialized variables to provide the total spending amount and product ID.
+
+DECLARE
+
+	LV_QUANTITY_NUM NUMBER(3):=0;
+	LV_ITEMCOST_NUM BB_PRODUCT.PRICE%TYPE;
+	LV_AMOUNT_NUM NUMBER(3):=100;
+
+
+BEGIN
+
+	SELECT SUM (PRICE)
+	 INTO LV_ITEMCOST_NUM
+	 FROM BB_PRODUCT
+	 WHERE idProduct=4;
+
+	WHILE LV_AMOUNT_NUM > 0 LOOP 
+		LV_AMOUNT_NUM:=LV_AMOUNT_NUM-LV_ITEMCOST_NUM;
+		LV_QUANTITY_NUM:=LV_QUANTITY_NUM+1;
+    EXIT WHEN LV_AMOUNT_NUM-LV_ITEMCOST_NUM<0;
+	END LOOP;
+	
+DBMS_OUTPUT.PUT_LINE(LV_QUANTITY_NUM);
+
+
+END;
+
+PL/SQL procedure successfully completed.
+
+3
+
+
+DECLARE
+
+	LV_QUANTITY_NUM NUMBER(3):=0;
+	LV_ITEMCOST_NUM BB_PRODUCT.PRICE%TYPE;
+	LV_AMOUNT_NUM NUMBER(3):=200;
+
+
+BEGIN
+
+	SELECT SUM (PRICE)
+	 INTO LV_ITEMCOST_NUM
+	 FROM BB_PRODUCT
+	 WHERE idProduct=4;
+
+	WHILE LV_AMOUNT_NUM > 0 LOOP 
+		LV_AMOUNT_NUM:=LV_AMOUNT_NUM-LV_ITEMCOST_NUM;
+		LV_QUANTITY_NUM:=LV_QUANTITY_NUM+1;
+    EXIT WHEN LV_AMOUNT_NUM-LV_ITEMCOST_NUM<0;
+	END LOOP;
+	
+DBMS_OUTPUT.PUT_LINE(LV_QUANTITY_NUM);
+
+
+END;
+
+PL/SQL procedure successfully completed.
+
+7
+
+
+DECLARE
+
+	LV_QUANTITY_NUM NUMBER(3):=0;
+	LV_ITEMCOST_NUM BB_PRODUCT.PRICE%TYPE;
+	LV_AMOUNT_NUM NUMBER(3):=200;
+
+
+BEGIN
+
+	SELECT SUM (PRICE)
+	 INTO LV_ITEMCOST_NUM
+	 FROM BB_PRODUCT
+	 WHERE idProduct=4;
+
+	WHILE LV_AMOUNT_NUM > 0 LOOP 
+		LV_AMOUNT_NUM:=LV_AMOUNT_NUM-LV_ITEMCOST_NUM;
+		LV_QUANTITY_NUM:=LV_QUANTITY_NUM+1;
+    EXIT WHEN LV_AMOUNT_NUM-LV_ITEMCOST_NUM<0;
+	END LOOP;
+	
+DBMS_OUTPUT.PUT_LINE(LV_QUANTITY_NUM);
+
+
+END;
+
+PL/SQL procedure successfully completed.
+
+3
+
+**********************************************************************************
+
+3-6
+
+Brewbean’s calculates shipping cost based on the quantity of items in an order. Assume the
+quantity column in the BB_BASKET table contains the total number of items in a basket.
+A block is needed to check the quantity provided by an initialized variable and determine the
+shipping cost. Display the calculated shipping cost onscreen. Test using the basket IDs 5 and
+12, and apply the shipping rates listed in Table 3-3.
+
+*I couldn't find the rates that this question stated so I made my own rates
+
+DECLARE
+
+	lv_shippingcost_num NUMBER(3);
+	lv_quantity_num NUMBER(2,0);
+
+BEGIN
+
+	SELECT SUM (QUANTITY) 
+	 INTO lv_quantity_num
+	  FROM BB_BASKET 
+	   WHERE idbasket=5;
+
+	CASE
+	WHEN lv_quantity_num >=200 THEN
+	 lv_shippingcost_num:=2;
+	WHEN lv_quantity_num >100 AND lv_quantity_num <200 THEN
+	 lv_shippingcost_num:=5;
+	ELSE
+	 lv_shippingcost_num:=10;
+	END CASE;
+
+
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+
+END;
+
+PL/SQL procedure successfully completed.
+
+10
+
+DECLARE
+
+	lv_shippingcost_num NUMBER(3);
+	lv_quantity_num NUMBER(2,0);
+
+BEGIN
+
+	SELECT SUM (QUANTITY) 
+	 INTO lv_quantity_num
+	  FROM BB_BASKET 
+	   WHERE idbasket=12;
+
+	CASE
+	WHEN lv_quantity_num >200 THEN
+	 lv_shippingcost_num:=2;
+	WHEN lv_quantity_num >100 AND lv_quantity_num <200 THEN
+	 lv_shippingcost_num:=5;
+	ELSE
+	 lv_shippingcost_num:=10;
+	END CASE;
+
+
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+
+END;
+
+
+PL/SQL procedure successfully completed.
+
+10
+
+**********************************************************************************
+
+3-7
+
+The Brewbean’s application contains a page displaying order summary information, including
+IDBASKET, SUBTOTAL, SHIPPING, TAX, and TOTAL columns from the BB_BASKET
+table. Create a PL/SQL block with scalar variables to retrieve this data and then display it
+onscreen. An initialized variable should provide the IDBASKET value. Test the block using the
+basket ID 12.
+
+
+DECLARE
+	lv_id_num NUMBER:=12;
+	lv_subtotal_num NUMBER:=100;
+	lv_shipping_num NUMBER:=2;
+	lv_tax_num NUMBER:=5;
+	lv_total_num NUMBER(3);
+BEGIN
+	lv_total_num:=(lv_subtotal_num+lv_shipping_num+lv_tax_num);
+
+	DBMS_OUTPUT.PUT_LINE('IDBASKET is '||lv_id_num||' * SUBTOTAL IS '||lv_subtotal_num||' * SHIPPING IS '||lv_shipping_num||' * TAX IS '||lv_tax_num||' * TOTAL IS '||lv_total_num);
+
+END;
+
+
+
+PL/SQL procedure successfully completed.
+
+
+IDBASKET is 12 * SUBTOTAL IS 100 * SHIPPING IS 2 * TAX IS 5 * TOTAL IS 107
+
+**********************************************************************************
+
+3-8
+
+The Brewbean’s application contains a page displaying order summary information, including
+IDBASKET, SUBTOTAL, SHIPPING, TAX, and TOTAL columns from the BB_BASKET
+table. Create a PL/SQL block with a record variable to retrieve this data and display it
+onscreen. An initialized variable should provide the IDBASKET value. Test the block using
+the basket ID 12.
+
+
+DECLARE
+
+	lv_id_num NUMBER;
+	lv_subtotal_num NUMBER;
+	lv_shipping_num NUMBER;
+	lv_tax_num NUMBER;
+	lv_total_num NUMBER;
+BEGIN
+
+	SELECT IDBASKET, SUBTOTAL, SHIPPING, TAX, TOTAL
+	 INTO lv_id_num, lv_subtotal_num, lv_shipping_num, lv_tax_num, lv_total_num
+	  FROM bb_basket
+	   WHERE idbasket=12;
+
+	DBMS_OUTPUT.PUT_LINE('IDBASKET is '||lv_id_num||' * SUBTOTAL IS '||lv_subtotal_num||' * SHIPPING IS '||lv_shipping_num||' * TAX IS '||lv_tax_num||' * TOTAL IS '||lv_total_num);
+
+END;
+
+
+PL/SQL procedure successfully completed.
+
+IDBASKET is 12 * SUBTOTAL IS 72.4 * SHIPPING IS 8 * TAX IS 3.26 * TOTAL IS 83.66
+
+**********************************************************************************
+
+3-9
+
+Create a PL/SQL block that retrieves and displays information for a specific project based on
+Project ID. Display the following on a single row of output: project ID, project name, number of
+pledges made, total dollars pledged, and the average pledge amount.
+
+**********************************************************************************
+
+3-10
+
+Create a PL/SQL block to handle adding a new project. Create and use a sequence named
+DD_PROJID_SEQ to handle generating and populating the project ID. The first number issued
+by this sequence should be 530, and no caching should be used. Use a record variable to
+handle the data to be added. Data for the new row should be the following: project name = HK
+Animal Shelter Extension, start = 1/1/2013, end = 5/31/2013, and fundraising goal = $65,000.
+Any columns not addressed in the data list are currently unknown.
+
+
+**********************************************************************************
+
+3-11
+
+Create a PL/SQL block to retrieve and display data for all pledges made in a specified month.
+One row of output should be displayed for each pledge. Include the following in each row
+of output:
+•Pledge ID, donor ID, and pledge amount
+•If the pledge is being paid in a lump sum, display “Lump Sum.”
+•If the pledge is being paid in monthly payments, display “Monthly - #” (with the #
+representing the number of months for payment).
+•The list should be sorted to display all lump sum pledges first.
+
+
+**********************************************************************************
+
+3-12
+
+Create a PL/SQL block to retrieve and display information for a specific pledge. Display the
+pledge ID, donor ID, pledge amount, total paid so far, and the difference between the pledged
+amount and total paid amount.
+
+
+**********************************************************************************
+
+3-13
+
+Create a PL/SQL block to modify the fundraising goal amount for a specific project. In addition,
+display the following information for the project being modified: project name, start date,
+previous fundraising goal amount, and new fundraising goal amount.
+
+
+**********************************************************************************

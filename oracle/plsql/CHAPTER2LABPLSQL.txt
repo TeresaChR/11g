@@ -1,0 +1,888 @@
+PL/SQL chapter 2 lab
+
+2-1
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_test_date DATE;
+  lv_test_num CONSTANT NUMBER(3):=10;
+  lv_test_txt VARCHAR2(10);
+BEGIN
+
+  lv_test_date:='10-DEC-2012';
+  lv_test_txt:='Brozen';
+  
+  dbms_output.put_line(lv_test_date);
+  dbms_output.put_line(lv_test_num);
+  dbms_output.put_line(lv_test_txt);
+END;
+
+
+anonymous block completed
+10-DEC-12
+10
+Brozen
+
+******************************************************************************
+
+2-2
+
+Retrive customer info including total purchases
+
+define what is a high, mid and low rating based on amount of purchases over time
+
+make a decision about where customer fits
+
+display summary information
+
+********************************************************************************
+
+2-3
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_test_customername VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+
+  lv_test_customername:='Brozen';
+  lv_test_totalpurchases:=300;
+  
+  IF lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  ELSIF lv_test_totalpurchases >=100 and lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSIF lv_test_totalpurchases <100 THEN
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END IF;
+END;
+
+anonymous block completed
+High Customer Rating
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_test_customername VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+
+  lv_test_customername:='Brozen';
+  lv_test_totalpurchases:=150;
+  
+  IF lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  ELSIF lv_test_totalpurchases >=100 and lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSIF lv_test_totalpurchases <100 THEN
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END IF;
+END;
+  
+
+anonymous block completed
+Mid Customer Rating
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_test_customername VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+
+  lv_test_customername:='Brozen';
+  lv_test_totalpurchases:=50;
+  
+  IF lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  ELSIF lv_test_totalpurchases >=100 and lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSIF lv_test_totalpurchases <100 THEN
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END IF;
+END;
+  
+
+anonymous block completed
+Low Customer Rating
+
+************************************************************************************
+
+2-4
+
+DECLARE
+  lv_test_customername   VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+  lv_test_customername  :='Brozen';
+  lv_test_totalpurchases:=300;
+  CASE
+  WHEN lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  WHEN lv_test_totalpurchases >=100 AND lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END CASE;
+  DBMS_OUTPUT.PUT_LINE(lv_test_totalpurchases);
+END;
+
+anonymous block completed
+High Customer Rating
+300
+
+DECLARE
+  lv_test_customername   VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+  lv_test_customername  :='Brozen';
+  lv_test_totalpurchases:=150;
+  CASE
+  WHEN lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  WHEN lv_test_totalpurchases >=100 AND lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END CASE;
+  DBMS_OUTPUT.PUT_LINE(lv_test_totalpurchases);
+END;
+
+anonymous block completed
+Mid Customer Rating
+150
+
+DECLARE
+  lv_test_customername   VARCHAR2(10);
+  lv_test_totalpurchases NUMBER(4);
+BEGIN
+  lv_test_customername  :='Brozen';
+  lv_test_totalpurchases:=50;
+  CASE
+  WHEN lv_test_totalpurchases >=200 THEN
+    DBMS_OUTPUT.PUT_LINE('High Customer Rating');
+  WHEN lv_test_totalpurchases >=100 AND lv_test_totalpurchases <200 THEN
+    DBMS_OUTPUT.PUT_LINE('Mid Customer Rating');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Low Customer Rating');
+  END CASE;
+  DBMS_OUTPUT.PUT_LINE(lv_test_totalpurchases);
+END;
+
+anonymous block completed
+Low Customer Rating
+50
+
+************************************************************************************
+
+2-5
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_customername_txt VARCHAR2(10);
+  lv_totalbalance_num NUMBER(4);
+  lv_totalpayment_num NUMBER(4);
+  lv_stillowed_bln BOOLEAN;
+	
+BEGIN
+
+  lv_customername_txt:='Brozen';
+  lv_totalbalance_num:=1000;
+  lv_totalpayment_num:=1000;
+  
+  IF (lv_totalbalance_num=lv_totalpayment_num) THEN
+    lv_stillowed_bln:=TRUE;
+  ELSIF (lv_totalbalance_num!=lv_totalpayment_num) THEN
+    lv_stillowed_bln:=FALSE;
+  END IF;
+  
+  IF lv_stillowed_bln =TRUE  THEN
+    DBMS_OUTPUT.PUT_LINE('Money Still Owed');
+  ELSIF lv_stillowed_bln=FALSE THEN
+    DBMS_OUTPUT.PUT_LINE('Account Paid in Full');
+  END IF;
+    
+END;
+
+PL/SQL procedure successfully completed.
+
+Money Still Owed
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_customername_txt VARCHAR2(10);
+  lv_totalbalance_num NUMBER(4);
+  lv_totalpayment_num NUMBER(4);
+  lv_stillowed_bln BOOLEAN;
+	
+BEGIN
+
+  lv_customername_txt:='Brozen';
+  lv_totalbalance_num:=1000;
+  lv_totalpayment_num:=500;
+  
+  IF (lv_totalbalance_num=lv_totalpayment_num) THEN
+    lv_stillowed_bln:=TRUE;
+  ELSIF (lv_totalbalance_num!=lv_totalpayment_num) THEN
+    lv_stillowed_bln:=FALSE;
+  END IF;
+  
+  IF lv_stillowed_bln =TRUE  THEN
+    DBMS_OUTPUT.PUT_LINE('Money Still Owed');
+  ELSIF lv_stillowed_bln=FALSE THEN
+    DBMS_OUTPUT.PUT_LINE('Account Paid in Full');
+  END IF;
+    
+END;
+
+PL/SQL procedure successfully completed.
+
+Account Paid in Full
+
+****************************************************************************
+
+2-6
+
+2-6
+
+SET SERVEROUTPUT ON
+
+DECLARE
+
+lv_keep_num NUMBER(5);
+lv_numofitems_num NUMBER(5);
+lv_itemsprices_num NUMBER(5);
+lv_totalspend_num NUMBER(5);
+
+BEGIN
+
+lv_keep_num:=100 ;
+lv_numofitems_num:=0 ;
+lv_itemsprices_num:=50 ;
+lv_totalspend_num:=100 ;
+
+WHILE (lv_totalspend_num >= lv_itemsprices_num) LOOP
+	lv_numofitems_num := lv_numofitems_num + 1;
+	lv_totalspend_num := lv_totalspend_num - lv_itemsprices_num;
+END LOOP;
+
+DBMS_OUTPUT.PUT_LINE(lv_numofitems_num);
+DBMS_OUTPUT.PUT_LINE(lv_keep_num);
+
+END;
+
+anonymous block completed
+2
+100
+
+********************************************************************************
+
+2-7
+
+Retrieve number of items ordered and club membership status
+
+Is the customer a club member?
+
+Yes calculate discount
+
+No calculate without discount
+
+Case statement
+
+Number of items and rate
+
+define shipping cost groupings( up to three, 4-6, 7-10 and more then 10) and rates. 
+
+display decision of is club member rates combined with the rate defined by the amount of items ordersed
+
+******************************************************************************
+
+2-8
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_member_bln BOOLEAN;
+  lv_ordered_num NUMBER(4);
+  lv_shippingcost_num NUMBER(4);
+	
+BEGIN
+
+  lv_member_bln:=TRUE;
+  lv_ordered_num:=5;
+  
+  IF (lv_member_bln= FALSE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=5;
+  ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=7.5;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=10;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=12;
+  END IF;
+
+  IF (lv_member_bln= TRUE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=3;
+  ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=5;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=7;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=9;
+  END IF;
+
+DBMS_OUTPUT.PUT_LINE('Your Shipping Cost is');
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+    
+END;
+
+PL/SQL procedure successfully completed.
+
+Your Shipping Cost is
+5
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_member_bln BOOLEAN;
+  lv_ordered_num NUMBER(4);
+  lv_shippingcost_num NUMBER(4);
+	
+BEGIN
+
+  lv_member_bln:=FALSE;
+  lv_ordered_num:=5;
+  
+  IF (lv_member_bln= FALSE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=5;
+  ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=7.5;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=10;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=12;
+  END IF;
+
+  IF (lv_member_bln= TRUE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=3;
+  ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=5;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=7;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=9;
+  END IF;
+
+DBMS_OUTPUT.PUT_LINE('Your Shipping Cost is');
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+    
+END;
+
+PL/SQL procedure successfully completed.
+
+Your Shipping Cost is
+8
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_member_bln BOOLEAN;
+  lv_ordered_num NUMBER(4);
+  lv_shippingcost_num NUMBER(4);
+	
+BEGIN
+
+  lv_member_bln:=FALSE;
+  lv_ordered_num:=2;
+  
+  IF (lv_member_bln= FALSE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=5;
+  ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=7.5;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=10;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=12;
+  END IF;
+
+  IF (lv_member_bln= TRUE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=3;
+  ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=5;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=7;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=9;
+  END IF;
+
+DBMS_OUTPUT.PUT_LINE('Your Shipping Cost is');
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+    
+END;
+
+PL/SQL procedure successfully completed.
+
+Your Shipping Cost is
+5
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_member_bln BOOLEAN;
+  lv_ordered_num NUMBER(4);
+  lv_shippingcost_num NUMBER(4);
+	
+BEGIN
+
+  lv_member_bln:=TRUE;
+  lv_ordered_num:=2;
+  
+  IF (lv_member_bln= FALSE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=5;
+  ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=7.5;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=10;
+	ELSIF (lv_member_bln= FALSE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=12;
+  END IF;
+
+  IF (lv_member_bln= TRUE AND lv_ordered_num<=3) THEN
+    lv_shippingcost_num:=3;
+  ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 4 and 6) THEN
+    lv_shippingcost_num:=5;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num BETWEEN 7 and 10) THEN
+    lv_shippingcost_num:=7;
+	ELSIF (lv_member_bln= TRUE AND lv_ordered_num>10) THEN
+    lv_shippingcost_num:=9;
+  END IF;
+
+DBMS_OUTPUT.PUT_LINE('Your Shipping Cost is');
+DBMS_OUTPUT.PUT_LINE(lv_shippingcost_num);
+
+    
+END;
+
+
+
+PL/SQL procedure successfully completed.
+
+Your Shipping Cost is
+3
+
+******************************************************************************
+2-9
+
+
+DECLARE
+
+lv_duedate_date DATE;
+lv_monthly_num NUMBER;
+lv_totalmonthly_num NUMBER;
+lv_totalpledge_num NUMBER;
+lv_counter_num NUMBER :=0 ;
+
+BEGIN
+
+lv_duedate_date := '18-SEP-12';
+lv_monthly_num := 240;
+lv_totalmonthly_num := 20;
+
+FOR i IN 1..12 LOOP
+ lv_counter_num := lv_counter_num+1;
+ DBMS_OUTPUT.PUT_LINE(lv_counter_num);
+ DBMS_OUTPUT.PUT_LINE(lv_duedate_date);
+ DBMS_OUTPUT.PUT_LINE(lv_totalmonthly_num);
+ lv_totalpledge_num := (lv_totalpledge_num - lv_monthly_num);
+ DBMS_OUTPUT.PUT_LINE(lv_totalpledge_num);
+END LOOP;
+
+END;
+
+anonymous block completed
+1
+18-SEP-12
+20
+
+2
+18-SEP-12
+20
+
+3
+18-SEP-12
+20
+
+4
+18-SEP-12
+20
+
+5
+18-SEP-12
+20
+
+6
+18-SEP-12
+20
+
+7
+18-SEP-12
+20
+
+8
+18-SEP-12
+20
+
+9
+18-SEP-12
+20
+
+10
+18-SEP-12
+20
+
+11
+18-SEP-12
+20
+
+12
+18-SEP-12
+20
+
+***********************************************************************************
+
+2-10
+
+2-10
+
+DECLARE
+
+lv_duedate_date DATE;
+lv_monthly_num NUMBER;
+lv_totalmonthly_num NUMBER;
+lv_totalpledge_num NUMBER;
+lv_counter_num NUMBER :=0 ;
+
+BEGIN
+
+lv_duedate_date := '18-SEP-12';
+lv_monthly_num := 240;
+lv_totalmonthly_num := 20;
+
+LOOP
+ lv_counter_num := lv_counter_num+1;
+ DBMS_OUTPUT.PUT_LINE(lv_counter_num);
+ DBMS_OUTPUT.PUT_LINE(lv_duedate_date);
+ DBMS_OUTPUT.PUT_LINE(lv_totalmonthly_num);
+ lv_totalpledge_num := (lv_totalpledge_num - lv_monthly_num);
+ DBMS_OUTPUT.PUT_LINE(lv_totalpledge_num);
+EXIT WHEN lv_counter_num=12;
+END LOOP;
+end;
+
+
+anonymous block completed
+1
+18-SEP-12
+20
+
+2
+18-SEP-12
+20
+
+3
+18-SEP-12
+20
+
+4
+18-SEP-12
+20
+
+5
+18-SEP-12
+20
+
+6
+18-SEP-12
+20
+
+7
+18-SEP-12
+20
+
+8
+18-SEP-12
+20
+
+9
+18-SEP-12
+20
+
+10
+18-SEP-12
+20
+
+11
+18-SEP-12
+20
+
+12
+18-SEP-12
+20
+
+*********************************************************************************
+
+2-11
+
+
+2-11
+
+DECLARE
+
+lv_duedate_date DATE;
+lv_monthly_num NUMBER;
+lv_monthlyupdate_num NUMBER;
+lv_totalmonthly_num NUMBER;
+lv_totalpledge_num NUMBER;
+lv_counter_num NUMBER :=0 ;
+
+BEGIN
+
+lv_duedate_date := '18-SEP-12';
+lv_monthly_num := 240;
+lv_totalmonthly_num := 20;
+
+WHILE lv_counter_num<12 LOOP
+ lv_counter_num := lv_counter_num+1;
+ DBMS_OUTPUT.PUT_LINE(lv_counter_num);
+ DBMS_OUTPUT.PUT_LINE(lv_duedate_date);
+ DBMS_OUTPUT.PUT_LINE(lv_totalmonthly_num);
+ lv_totalmonthly_num := (lv_totalmonthly_num + 20);
+ DBMS_OUTPUT.PUT_LINE(lv_totalpledge_num);
+END LOOP;
+
+END;
+
+
+
+anonymous block completed
+1
+18-SEP-12
+20
+
+2
+18-SEP-12
+40
+
+3
+18-SEP-12
+60
+
+4
+18-SEP-12
+80
+
+5
+18-SEP-12
+100
+
+6
+18-SEP-12
+120
+
+7
+18-SEP-12
+140
+
+8
+18-SEP-12
+160
+
+9
+18-SEP-12
+180
+
+10
+18-SEP-12
+200
+
+11
+18-SEP-12
+220
+
+12
+18-SEP-12
+240
+
+*********************************************************************************
+
+2-12
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+  lv_code_num NUMBER(3);
+  lv_match_num NUMBER(3,2);
+  lv_pledge_num NUMBER(3);
+  lv_matchpledge_num DECIMAL(3);
+
+BEGIN
+
+lv_code_num:=1;
+lv_pledge_num:=100;
+
+  CASE
+  WHEN lv_code_num =0 THEN
+     lv_match_num:=(.25);
+  WHEN lv_code_num=1 THEN
+     lv_match_num:=(.5);
+  WHEN lv_code_num =2 THEN
+     lv_match_num:=(1);
+  ELSE
+    lv_match_num:=0;
+  END CASE;
+
+  lv_matchpledge_num:=(lv_pledge_num*lv_match_num);
+
+
+  DBMS_OUTPUT.PUT_LINE(lv_matchpledge_num);
+END;
+
+
+PL/SQL procedure successfully completed.
+
+50
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+  lv_code_num NUMBER(3);
+  lv_match_num NUMBER(3,2);
+  lv_pledge_num NUMBER(3);
+  lv_matchpledge_num DECIMAL(3);
+
+BEGIN
+
+lv_code_num:=0;
+lv_pledge_num:=100;
+
+  CASE
+  WHEN lv_code_num =0 THEN
+     lv_match_num:=(.25);
+  WHEN lv_code_num=1 THEN
+     lv_match_num:=(.5);
+  WHEN lv_code_num =2 THEN
+     lv_match_num:=(1);
+  ELSE
+    lv_match_num:=0;
+  END CASE;
+
+  lv_matchpledge_num:=(lv_pledge_num*lv_match_num);
+
+
+  DBMS_OUTPUT.PUT_LINE(lv_matchpledge_num);
+END;
+
+PL/SQL procedure successfully completed.
+
+25
+
+***********************************************************************************************
+
+2-13
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_donor_char Char(1);
+  lv_pledge_num NUMBER(4);
+  lv_matchpledge_num NUMBER(4,3);
+  lv_total_num NUMBER(3);
+	
+BEGIN
+
+  lv_donor_char:='I';
+  lv_pledge_num:=275;
+
+  
+  IF (lv_donor_char='I' AND lv_pledge_num BETWEEN 100 and 249) THEN
+    lv_matchpledge_num:=.5;
+  ELSIF (lv_donor_char='I' AND lv_pledge_num BETWEEN 250 and 499) THEN
+    lv_matchpledge_num:=.3;
+  ELSIF (lv_donor_char='I' AND lv_pledge_num>=500) THEN
+    lv_matchpledge_num:=.2;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num BETWEEN 100 and 499) THEN
+    lv_matchpledge_num:=.2;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num BETWEEN 500 and 999) THEN
+    lv_matchpledge_num:=.1;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num>=1000) THEN
+    lv_matchpledge_num:=.05;
+  ELSIF (lv_donor_char='G' AND lv_pledge_num>=100) THEN
+    lv_matchpledge_num:=.05;
+  END IF;
+
+  lv_total_num:=(lv_pledge_num*lv_matchpledge_num);
+
+DBMS_OUTPUT.PUT_LINE('Matching Donation');
+DBMS_OUTPUT.PUT_LINE(lv_total_num);
+END;
+
+PL/SQL procedure successfully completed.
+
+Matching Donation
+83
+
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE 
+  lv_donor_char Char(1);
+  lv_pledge_num NUMBER(4);
+  lv_matchpledge_num NUMBER(4,3);
+  lv_total_num NUMBER(3);
+	
+BEGIN
+
+  lv_donor_char:='B';
+  lv_pledge_num:=550;
+
+  
+  IF (lv_donor_char='I' AND lv_pledge_num BETWEEN 100 and 249) THEN
+    lv_matchpledge_num:=.5;
+  ELSIF (lv_donor_char='I' AND lv_pledge_num BETWEEN 250 and 499) THEN
+    lv_matchpledge_num:=.3;
+  ELSIF (lv_donor_char='I' AND lv_pledge_num>=500) THEN
+    lv_matchpledge_num:=.2;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num BETWEEN 100 and 499) THEN
+    lv_matchpledge_num:=.2;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num BETWEEN 500 and 999) THEN
+    lv_matchpledge_num:=.1;
+  ELSIF (lv_donor_char='B' AND lv_pledge_num>=1000) THEN
+    lv_matchpledge_num:=.05;
+  ELSIF (lv_donor_char='G' AND lv_pledge_num>=100) THEN
+    lv_matchpledge_num:=.05;
+  END IF;
+
+  lv_total_num:=(lv_pledge_num*lv_matchpledge_num);
+
+DBMS_OUTPUT.PUT_LINE('Matching Donation');
+DBMS_OUTPUT.PUT_LINE(lv_total_num);
+END;
+
+PL/SQL procedure successfully completed.
+
+Matching Donation
+55
+
+
+
+

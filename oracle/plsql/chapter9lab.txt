@@ -1,0 +1,158 @@
+9-3
+
+CREATE OR REPLACE TRIGGER bb_reqfill_trg
+   AFTER UPDATE OF dtRecd ON bb_product_request
+   FOR EACH ROW 
+DECLARE
+  v_onorder_num NUMBER(4);
+ BEGIN
+  IF :NEW.dtRecd <> ''
+     THEN
+     UPDATE bb_product
+    set stock = stock + :NEW.qty
+    where idproduct = :NEW.idproduct;
+  ELSE 
+      UPDATE bb_product
+      set stock = stock - :OLD.qty
+      where idproduct = :NEW.idproduct;
+  END IF;
+END;
+/
+
+
+Trigger BB_REQFILL_TRG compiled
+
+
+INSERT INTO bb_product_request (idRequest, idProduct, dtRequest, qty,
+dtRecd, cost)
+VALUES (4, 5, SYSDATE, 45, '15-JUN-2012',225);
+UPDATE bb_product
+SET stock = 86
+WHERE idProduct = 5;
+COMMIT;
+
+1 row inserted.
+
+
+1 row updated.
+
+
+Commit complete.
+
+UPDATE bb_product_request
+SET dtRecd = NULL
+WHERE idRequest = 4;
+
+1 row updated.
+
+
+SELECT * FROM bb_product_request where idRequest = 4;
+
+
+ IDREQUEST  IDPRODUCT DTREQUEST DTRECD          COST        QTY   IDVENDER
+---------- ---------- --------- --------- ---------- ---------- ----------
+         4          5 27-MAY-16                  225         45       
+    
+ALTER TRIGGER bb_reqfill_trg DISABLE;
+
+
+Trigger BB_REQFILL_TRG altered.
+
+***************************************************************************************************************************************************************************************
+
+9-4
+
+CREATE OR REPLACE TRIGGER bb_ordcancel_trg
+AFTER INSERT ON bb_basketstatus
+FOR EACH ROW
+WHEN( new.idstage = 4)
+DECLARE
+CURSOR basketitem_cur is
+SELECT idproduct,quantity,option1
+from bb_basketitem
+where idbasket =:new.idbasket;
+lv_chg_num NUMBER(3,1);
+BEGIN
+FOR basketitem_rec in basketitem_cur LOOP
+IF basketitem_rec.option1 =1 then
+lv_chg_num := (.5*basketitem_rec.quantity);
+ELSE
+lv_chg_num := basketitem_rec.quantity;
+END IF;
+update bb_product
+set stock= stock - lv_chg_num
+where idproduct = basketitem_rec.idproduct;
+update bb_basket
+set orderplaced = 0
+where idbasket = :new.idbasket;
+END LOOP;
+END;
+/
+
+Trigger BB_ORDCANCEL_TRG compiled
+
+
+INSERT INTO bb_basketstatus (idStatus, idBasket, idStage, dtStage)
+VALUES (bb_status_seq.NEXTVAL, 6, 4, SYSDATE);
+
+
+1 row inserted.
+
+SELECT idStatus, idBasket, idStage, dtStage FROM bb_basketstatus 
+WHERE idBasket = 6; 
+
+
+  IDSTATUS   IDBASKET    IDSTAGE DTSTAGE 
+---------- ---------- ---------- ---------
+        16          6          4 27-MAY-16
+
+ALTER TRIGGER bb_ordcancel_trg DISABLE;
+
+Trigger BB_ORDCANCEL_TRG altered.
+
+*********************************************************************************************************************************************************************************
+
+9-5
+
+
+CREATE OR REPLACE TRIGGER BB_DISCOUNT_TRG
+AFTER UPDATE OF orderplaced on bb_basket
+FOR EACH ROW
+WHEN (OLD.orderplaced <> 1 AND NEW.orderplaced = 1)
+
+DECLARE
+
+PV_DISC_NUM NUMBER := 5;
+PV_DISC_TXT CHAR := 'Y';
+
+BEGIN
+IF :NEW.orderplaced = 1 THEN
+DBMS_OUTPUT.PUT_LINE(PV_DISC_NUM);
+END IF;
+
+END;
+/ 
+
+
+Trigger BB_DISCOUNT_TRG compiled
+
+
+create or replace package disc_pkg is
+  pv_disc_num number(2); -- stores number of orders
+  pv_disc_txt varchar2(1); -- stores Y for discount, else no discount
+end disc_pkg;
+
+
+Package DISC_PKG compiled
+
+
+UPDATE bb_basket
+SET orderplaced = 1
+WHERE idBasket = 13;
+
+
+1 row updated.
+
+5
+
+

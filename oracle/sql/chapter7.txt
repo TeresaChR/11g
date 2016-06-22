@@ -1,0 +1,239 @@
+Matthew Brozen
+Chapter 7 Hands on Assignments
+
+1.
+
+SQL> CREATE USER MBROZ
+  2  IDENTIFIED BY 12345;
+
+User created.
+
+2.
+
+Enter user-name: mbroz
+Enter password:
+ERROR:
+ORA-01045: user MBROZ lacks CREATE SESSION privilege; logon denied
+
+
+3.
+
+SQL> GRANT CREATE SESSION
+  2  TO MBROZ;
+
+Grant succeeded.
+
+SQL> GRANT CREATE TABLE
+  2  TO MBROZ;
+
+Grant succeeded.
+
+SQL> GRANT ALTER
+  2  ON scott.books
+  3  TO MBROZ;
+
+Grant succeeded.
+
+ 
+4.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1   GRANT INSERT, DELETE
+  2   ON scott.ORDERS
+  3*  TO CUSTOMERREP
+SQL> /
+
+Grant succeeded.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1   GRANT INSERT, DELETE
+  2   ON scott.ORDERITEMS
+  3*  TO CUSTOMERREP
+SQL> /
+
+Grant succeeded.
+
+5.
+
+SQL> GRANT CUSTOMERREP
+  2  TO MBROZ;
+
+Grant succeeded.
+
+
+6.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2* FROM user_sys_privs
+SQL> /
+
+USERNAME                       PRIVILEGE                                ADM
+------------------------------ ---------------------------------------- ---
+MBROZ                          CREATE SESSION                           NO
+MBROZ                          CREATE TABLE                             NO
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT GRANTEE, OWNER, TABLE_NAME, GRANTOR, PRIVILEGE
+  2* FROM user_tab_privs
+SQL> /
+
+GRANTEE                        OWNER                          TABLE_NAME                     GRANTOR      PRIVILEGE
+------------------------------ ------------------------------ ------------------------------ ------------ ----------
+MBROZ                         SCOTT                          BOOKS                          SCOTT        ALTER
+
+SQL> edit
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2* FROM user_role_privs
+SQL> /
+
+USERNAME                       GRANTED_ROLE                   ADM DEF OS_
+------------------------------ ------------------------------ --- --- ---
+MBROZ                          CUSTOMERREP                    NO  YES NO
+
+
+7.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  REVOKE DELETE
+  2  ON scott.ORDERS
+  3* FROM CUSTOMERREP
+SQL> /
+
+Revoke succeeded.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  REVOKE DELETE
+  2  ON scott.ORDERITEMS
+  3* FROM CUSTOMERREP
+SQL> /
+
+Revoke succeeded.
+
+8.
+
+SQL> REVOKE CUSTOMERREP
+  2  FROM MBROZ;
+
+Revoke succeeded.
+
+
+9.
+
+SQL> DROP ROLE CUSTOMERREP;
+
+Role dropped.
+
+
+10.
+
+SQL> DROP USER MBROZ;
+
+User dropped.
+
+
+Advance Challenge 
+
+1.
+
+Employee Type & Duty:
+(1) Account Manager: responsible for the company's marketing activities.
+(2) Data Entry Clerk: enter inventory updates.
+(3) Customer Service Representative: adding new customers and entering orders.
+
+List of objects in JustLee Books database:
+(I) 	BOOKS
+(II) 	CUSTOMERS
+(III) 	ORDERS
+(IV) 	ORDERITEMS
+(V) 	AUTHOR
+(VI) 	BOOKAUTHOR
+(VII) 	PUBLISHER
+(VIII) 	PROMOTION
+
+Privilege:
+•	System Privilege:
+CREATE SESSION should be grant to all employee types (1), (2) & (3)
+
+•	Object Privilege:
+1.	For Account Manager:  grant SELECT, INSERT, UPDATE, DELETE, INDEX, ALTER to "PROMOTION".  In addition, grant SELECT on all objects in JustLee database.
+2.	For Data Entry Clerk: grant SELECT, INSERT, UPDATE, DELETE INDEX, ALTER, REFERENCE to " BOOKS", "AUTHOR", "BOOKAUTHOR", "PUBLISHER".
+3.	For Customer Service Representative: grant SELECT, INSERT, UPDATE, DELETE INDEX, ALTER, REFERENCE to "CUSTOMERS", "ORDERS", "ORDERITEMS".
+
+Role name:
+For Account Manager , employee type (1), its rolename is called “AcctManager” and included privileges listed in the section above.
+
+For Data Entry Clerk, employee type (2), its rolename is called “DataClerk” and included privileges listed in the section above.
+
+For Customer Service Representative, employee type (3), its rolename is called “CustomerRep” and included privileges listed in the section above.
+
+
+Command:
+GRANT CREATE SESSION TO [EMPLOYEE USER NAME]
+CREATE ROLE AcctManger;
+CREATE ROLE DataClerk;
+CREATE ROLE CustomerRep;
+--------
+GRANT SELECT, INSERT, UPDATE, DELETE, INDEX, ALTER 
+ON  schemaname.PROMOTION 
+TO AcctManager 
+
+GRANT SELECT ON schemaname.BOOKS TO AcctManager;
+GRANT SELECT ON schemaname.BOOKAUTHOR TO AcctManager;
+GRANT SELECT ON schemaname.AUTHOR TO AcctManager;
+GRANT SELECT ON schemaname.PUBLISHER TO AcctManager;
+GRANT SELECT ON schemaname.CUSTOMERS TO AcctManager;
+GRANT SELECT ON schemaname.ORDERS TO AcctManager;
+GRANT SELECT ON schemaname.ORDERITEMS TO AcctManager;
+-------
+GRANT SELECT, INSERT UPDATE, DELETE, INDEX, ALTER, REFERENCE
+ON schemaname.BOOKS
+TO DataClerk;
+
+GRANT SELECT, INSERT UPDATE, DELETE, INDEX, ALTER, REFERENCE
+ON schemaname.BOOKAUTHOR
+TO DataClerk;
+
+GRANT SELECT, INSERT UPDATE, DELETE, INDEX, ALTER, REFERENCE
+ON schemaname.AUTHOR
+TO DataClerk;
+
+GRANT SELECT, INSERT UPDATE, DELETE, INDEX, ALTER, REFERENCE
+ON schemaname.PUBLISHER
+TO DataClerk;
+-------
+GRANT SELECT, INSERT, UPDATE, DELETE INDEX, ALTER, REFERENCE ON schemaname.CUSTOMERS
+TO CustomerRep;
+
+GRANT SELECT, INSERT, UPDATE, DELETE INDEX, ALTER, REFERENCE ON schemaname.ORDERS
+TO CustomerRep;
+
+GRANT SELECT, INSERT, UPDATE, DELETE INDEX, ALTER, REFERENCE ON schemaname.ORDERITEMS
+TO CustomerRep;
+ 
+Explanation:
+
+Account Mangers deal with marketing promotional; thus, they only need to view tables containing relevant information to marking. They get the listed privileges above from PROMOTION table, so they can work on marketing promotions like promotions based on customer’s previous purchase or for specific books.
+
+Data Entry Clerks keeps the inventory up to date, therefore, they get the listed privileges above, in order for them to perform daily duty (add new books and publishers, change price etc…) on these relevant tables: BOOKS, BOOKAUTHOR, AUTHOR, PUBLISHER.  They have no access to other tables because those tables contain information irrelevant to them.
+
+Customer Service Representative process orders, therefore, they get the listed privilege above, in order for them to perform daily duty (add new customers, enter orders etc…) on these relevant tables: CUSTOMERS, ORDERS, ORDERITEMS. They have no access to other tables because those tables contain information irrelevant to them.
+
+
+
+

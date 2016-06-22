@@ -1,0 +1,1102 @@
+8-1
+
+
+DESCRIBE USER_OBJECTS;
+
+Name           Null Type          
+-------------- ---- ------------- 
+OBJECT_NAME         VARCHAR2(128) 
+SUBOBJECT_NAME      VARCHAR2(30)  
+OBJECT_ID           NUMBER        
+DATA_OBJECT_ID      NUMBER        
+OBJECT_TYPE         VARCHAR2(19)  
+CREATED             DATE          
+LAST_DDL_TIME       DATE          
+TIMESTAMP           VARCHAR2(19)  
+STATUS              VARCHAR2(7)   
+TEMPORARY           VARCHAR2(1)   
+GENERATED           VARCHAR2(1)   
+SECONDARY           VARCHAR2(1)   
+NAMESPACE           NUMBER        
+EDITION_NAME        VARCHAR2(30)  
+
+SELECT OBJECT_NAME, STATUS, TIMESTAMP FROM USER_OBJECTS where OBJECT_TYPE='PROCEDURE';
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+SUBPTXT2                                                                        
+VALID   2014-05-29:13:11:24
+
+SUBPTXT                                                                         
+VALID   2014-05-29:13:11:24
+
+ODCIINDEXINFOFLAGSDUMP                                                          
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:11:59
+
+ODCICOLINFOFLAGSDUMP                                                            
+VALID   2014-05-29:13:11:59
+
+ODCIINDEXINFODUMP                                                               
+VALID   2014-05-29:13:11:59
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+ODCIPREDINFODUMP                                                                
+VALID   2014-05-29:13:11:59
+
+ODCICOLINFODUMP                                                                 
+VALID   2014-05-29:13:11:59
+
+ODCIANYDATADUMP                                                                 
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:12:00
+
+ODCIQUERYINFODUMP                                                               
+VALID   2014-05-29:13:12:00
+
+ODCISTATSOPTIONSDUMP                                                            
+VALID   2014-05-29:13:12:00
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+ODCIENVDUMP                                                                     
+VALID   2014-05-29:13:12:00
+
+ODCIINDEXALTEROPTIONDUMP                                                        
+VALID   2014-05-29:13:12:00
+
+ODCIINDEXCALLPROPERTYDUMP                                                       
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:12:00
+
+ODCIPARTINFODUMP                                                                
+VALID   2014-05-29:13:12:00
+
+ODCIPARTINFOLISTDUMP                                                            
+VALID   2014-05-29:13:12:00
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+ODCITABFUNCINFODUMP                                                             
+VALID   2014-05-29:13:12:00
+
+LOAD_UNDO_STAT                                                                  
+VALID   2014-05-29:13:12:09
+
+RESET_UNDO_STAT                                                                 
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:12:09
+
+AW_DROP_PROC                                                                    
+VALID   2014-05-29:13:12:22
+
+LOGMNR_KRVRDLUID3                                                               
+VALID   2014-05-29:13:12:31
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+LOGMNR_KRVRDREPDICT3                                                            
+VALID   2014-05-29:13:12:31
+
+DBMS_LOGMNR_FFVTOLOGMNRT                                                        
+VALID   2014-05-29:13:12:31
+
+LOGMNR_KRVRDA_TEST_APPLY                                                        
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:12:31
+
+SCHEDULER$_JOB_EVENT_HANDLER                                                    
+VALID   2014-05-29:13:14:09
+
+LOGMNR_GTLO3                                                                    
+VALID   2014-05-29:13:14:11
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_ASM                                                                
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AUTOSTA                                                            
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_WCR_CAPTURE                                                        
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_WCR_REPLAY                                                         
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_PARTITION_USER                                                     
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_PARTITION_SYSTEM                                                   
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_PLSQL_NATIVE                                                       
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RAC                                                                
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_XDB                                                                
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_APEX                                                               
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_OBJECT                                                             
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_EXTENSIBILITY                                                      
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RULESMANAGER                                                       
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_CDC                                                                
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SERVICES                                                           
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_USER_MVS                                                           
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_HCC                                                                
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SECUREFILES_USR                                                    
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SECUREFILES_SYS                                                    
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SFENCRYPT_USR                                                      
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_SFENCRYPT_SYS                                                      
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SFCOMPRESS_USR                                                     
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SFCOMPRESS_SYS                                                     
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SFDEDUP_USR                                                        
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SFDEDUP_SYS                                                        
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_DATA_GUARD                                                         
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_DYN_SGA                                                            
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AUTO_SGA                                                           
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AUTO_MEM                                                           
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RESOURCE_MANAGER                                                   
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_RMAN_ZLIB                                                          
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RMAN_BZIP2                                                         
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RMAN_BASIC                                                         
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RMAN_LOW                                                           
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_RMAN_MEDIUM                                                        
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_RMAN_HIGH                                                          
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AUTO_SSM                                                           
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_LMT                                                                
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_SEGADV_USER                                                        
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AUM                                                                
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_JOB_SCHEDULER                                                      
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_EXADATA                                                            
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_UTILITIES1                                                         
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_UTILITIES2                                                         
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_UTILITIES3                                                         
+VALID   2014-05-29:13:14:41
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_UTILITIES4                                                         
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_AWR                                                                
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_DATABASE_VAULT                                                     
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:41
+
+DBMS_FEATURE_DEFERRED_SEG_CRT                                                   
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_DMU                                                                
+VALID   2014-05-29:13:14:42
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_TEST_PROC_1                                                        
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_TEST_PROC_2                                                        
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_TEST_PROC_3                                                        
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_TEST_PROC_4                                                        
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_TEST_PROC_5                                                        
+VALID   2014-05-29:13:14:42
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+DBMS_FEATURE_REGISTER_ALLFEAT                                                   
+VALID   2014-05-29:13:14:42
+
+DBMS_FEATURE_REGISTER_ALLHWM                                                    
+VALID   2014-05-29:13:14:42
+
+AW_TRUNC_PROC                                                                   
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:15:47
+
+AW_REN_PROC                                                                     
+VALID   2014-05-29:13:15:47
+
+VALIDATE_CONTEXT                                                                
+VALID   2014-05-29:13:18:08
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+SETMODFLG                                                                       
+VALID   2014-05-29:13:18:30
+
+MOVEXDB_TABLE                                                                   
+VALID   2014-05-29:13:18:32
+
+MOVEXDB_TABLE_PART2                                                             
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+VALID   2014-05-29:13:18:32
+
+SET_TABLESPACE                                                                  
+VALID   2014-05-29:13:18:32
+
+VALIDATE_APEX                                                                   
+VALID   2014-05-29:13:23:10
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+PROMO_SHIP_SP                                                                   
+INVALID 2016-04-08:23:24:27
+
+BASKET_ADD_SP                                                                   
+INVALID 2016-04-08:23:30:48
+
+MEMBER_CK_SP                                                                    
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+INVALID 2016-04-08:22:58:24
+
+MOST_RECENT_ORDER_SP                                                            
+INVALID 2016-04-08:21:50:36
+
+BASKET_CONFIRM_SP                                                               
+INVALID 2016-04-08:20:30:10
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+STATUS_SP                                                                       
+INVALID 2016-04-08:23:19:51
+
+PROD_NAME_SP                                                                    
+INVALID 2016-03-24:23:31:12
+
+PROD_ADD_SP                                                                     
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+INVALID 2016-03-25:13:37:40
+
+TAX_COST_SP                                                                     
+INVALID 2016-03-25:20:33:11
+
+STATUS_SHIP_SP                                                                  
+INVALID 2016-03-25:20:50:39
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TIMESTAMP
+-------------------
+MOST_RECENT_ORDER                                                               
+INVALID 2016-03-25:21:15:18
+
+TEST_SP                                                                         
+INVALID 2016-03-25:22:36:48
+
+
+ 102 rows selected 
+
+DESCRIBE USER_DEPENDENCIES;
+
+Name                 Null     Type          
+-------------------- -------- ------------- 
+NAME                 NOT NULL VARCHAR2(30)  
+TYPE                          VARCHAR2(18)  
+REFERENCED_OWNER              VARCHAR2(30)  
+REFERENCED_NAME               VARCHAR2(64)  
+REFERENCED_TYPE               VARCHAR2(18)  
+REFERENCED_LINK_NAME          VARCHAR2(128) 
+SCHEMAID                      NUMBER        
+DEPENDENCY_TYPE               VARCHAR2(4)   
+
+SELECT name, type
+FROM user_dependencies
+WHERE referenced_name = 'BB_BASKET';
+
+NAME                           TYPE             
+------------------------------ ------------------
+BB_SHIP_VU                     VIEW              
+ORDER_INFO_PKG                 PACKAGE BODY      
+
+
+
+***********************************************************************************
+
+8-2
+
+CREATE OR REPLACE FUNCTION status_desc_sf
+  (p_stage IN NUMBER)
+  RETURN VARCHAR2
+ IS
+  lv_stage_txt VARCHAR2(30);
+BEGIN
+ IF p_stage = 1 THEN
+   lv_stage_txt := 'Order Submitted';
+ ELSIF p_stage = 2 THEN
+   lv_stage_txt := 'Accepted, sent to shipping';
+ ELSIF p_stage = 3 THEN
+   lv_stage_txt := 'Backordered';
+ ELSIF p_stage = 4 THEN
+   lv_stage_txt := 'Cancelled';
+ ELSIF p_stage = 5 THEN
+   lv_stage_txt := 'Shipped';
+ END IF;
+ RETURN lv_stage_txt;
+END;
+/
+CREATE OR REPLACE PROCEDURE status_check_sp
+  (p_bask IN NUMBER,
+   p_stage OUT NUMBER,
+   p_desc OUT VARCHAR2)
+ IS
+BEGIN
+  SELECT idstage
+   INTO p_stage
+   FROM bb_basketstatus
+   WHERE idBasket = p_bask;
+  p_desc := status_desc_sf(p_stage);
+END;
+/ 
+
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_name IN
+('STATUS_CHECK_SP','STATUS_DESC_SF');
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+STATUS_CHECK_SP                                                                 
+VALID  
+
+STATUS_DESC_SF                                                                  
+VALID  
+
+
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_name IN
+('STATUS_CHECK_SP','STATUS_DESC_SF');
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+STATUS_CHECK_SP                                                                 
+VALID  
+
+STATUS_DESC_SF                                                                  
+VALID  
+
+
+DECLARE
+lv_stage_num NUMBER(2);
+lv_desc_txt VARCHAR2(30);
+BEGIN
+status_check_sp(13,lv_stage_num,lv_desc_txt);
+END;
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_name IN
+('STATUS_CHECK_SP','STATUS_DESC_SF');
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+STATUS_CHECK_SP                                                                 
+VALID  
+
+STATUS_DESC_SF                                                                  
+VALID  
+
+***********************************************************************************
+
+
+8-3
+
+
+
+CREATE OR REPLACE PACKAGE lookup_pkg
+ IS
+ FUNCTION status_desc_pf
+  (p_stage IN NUMBER)
+  RETURN VARCHAR2;
+END;
+/
+CREATE OR REPLACE PACKAGE BODY lookup_pkg
+ IS
+FUNCTION status_desc_pf
+  (p_stage IN NUMBER)
+  RETURN VARCHAR2
+ IS
+  lv_stage_txt VARCHAR2(30);
+BEGIN
+ IF p_stage = 1 THEN
+   lv_stage_txt := 'Order Submitted';
+ ELSIF p_stage = 2 THEN
+   lv_stage_txt := 'Accepted, sent to shipping';
+ ELSIF p_stage = 3 THEN
+   lv_stage_txt := 'Backordered';
+ ELSIF p_stage = 4 THEN
+   lv_stage_txt := 'Cancelled';
+ ELSIF p_stage = 5 THEN
+   lv_stage_txt := 'Shipped';
+ END IF;
+ RETURN lv_stage_txt;
+END;
+END;
+/
+CREATE OR REPLACE PROCEDURE status_check_sp
+  (p_bask IN NUMBER,
+   p_stage OUT NUMBER,
+   p_desc OUT VARCHAR2)
+ IS
+BEGIN
+  SELECT idstage
+   INTO p_stage
+   FROM bb_basketstatus
+   WHERE idBasket = p_bask;
+  p_desc := lookup_pkg.status_desc_pf(p_stage);
+END;
+/
+
+SELECT status
+FROM user_objects
+WHERE object_name = 'STATUS_CHECK_SP';
+
+STATUS
+-------
+VALID  
+
+ELSIF p_stage = 6 THEN
+lv_stage_txt := 'Credit Card Not Approved';
+
+SELECT status
+FROM user_objects
+WHERE object_name = 'STATUS_CHECK_SP';
+
+
+STATUS
+-------
+VALID  
+
+
+***********************************************************************************
+
+
+8-4
+
+
+CREATE DATABASE LINK dblink2
+  USING 'XE';
+
+
+
+Database link DBLINK2 created.
+
+CREATE OR REPLACE FUNCTION status_desc_sf
+  (p_stage NUMBER)
+  RETURN VARCHAR2
+ IS
+  lv_stage_txt VARCHAR2(30);
+BEGIN
+ IF p_stage = 1 THEN
+   lv_stage_txt := 'Order Submitted';
+ ELSIF p_stage = 2 THEN
+   lv_stage_txt := 'Accepted, sent to shipping';
+ ELSIF p_stage = 3 THEN
+   lv_stage_txt := 'Backordered';
+ ELSIF p_stage = 4 THEN
+   lv_stage_txt := 'Cancelled';
+ ELSIF p_stage = 5 THEN
+   lv_stage_txt := 'Shipped';
+ END IF;
+ RETURN lv_stage_txt;
+END;
+/
+CREATE OR REPLACE PROCEDURE status_check_sp
+  (p_bask IN NUMBER,
+   p_stage OUT NUMBER,
+   p_desc OUT VARCHAR2)
+ IS
+BEGIN
+  SELECT idstage
+   INTO p_stage
+   FROM bb_basketstatus
+   WHERE idBasket = p_bask;
+  p_desc := status_desc_sf@dblink2(p_stage);
+END;
+/
+
+Function STATUS_DESC_SF compiled
+
+Procedure STATUS_CHECK_SP compiled
+
+SELECT status
+FROM user_objects
+WHERE object_name = 'STATUS_CHECK_SP';
+
+
+STATUS
+-------
+VALID
+
+SELECT status
+FROM user_objects
+WHERE object_name = 'STATUS_CHECK_SP';
+
+STATUS
+-------
+VALID
+
+SELECT status
+FROM user_objects
+WHERE object_name = 'STATUS_CHECK_SP';
+
+STATUS
+-------
+INVALID
+
+
+
+
+
+
+***********************************************************************************
+
+
+8-5
+
+
+SELECT name, type
+FRom USER_DEPENDENCIES
+WHERE referenced_name='BB_BASKET';
+
+EXECUTE deptree_fill('TABLE','SYS','BB_BASKET');
+
+SELECT nested_level, name, type, seq#
+ FROM deptree
+  ORDER BY seq#;
+
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+                                      0 
+BB_BASKET                                                                       
+TABLE                        0
+
+                                      1 
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+"SELECT SHIPFIRSTNAME||' '||SHIPLASTNAME FROM BB_BASKET WHERE IDBASKET = :B1 "  
+CURSOR                      .5
+
+                                      1 
+"DECLARE lv_bask_num NUMBER:=12; lv_idshopper_num bb_basket.idshopper%TYPE; lv_d
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+ateordered_date bb_basket.dtordered%TYPE; lv_customername_name VARCHAR2(12);  BE
+GIN order_info_pkg.basket_info_pp(lv_bask_num,lv_idshopper_num, lv_dateordered_d
+ate, lv_customername_name); DBMS_OUTPUT.PUT_LINE(lv_idshopper_num); DBMS_OUTPUT.
+PUT_LINE(lv_dateordered_date); DBMS_OUTPUT.PUT_LINE(lv_customername_name); END;"
+CURSOR                      .5
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+                                      1 
+"/* + NO_PARALLEL */SELECT ROWID "ROWID", ORA_ROWSCN "ORA_ROWSCN", Idbasket IDBA
+SKET, Quantity QUANTITY, Idshopper IDSHOPPER, Orderplaced ORDERPLACED, Subtotal 
+SUBTOTAL, Total TOTAL, Shipping SHIPPING, Tax TAX, Dtcreated DTCREATED, Promo PR
+OMO, Shipfirstname SHIPFIRSTNAME, Shiplastname SHIPLASTNAME, Shipaddress SHIPADD
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+RESS, Shipcity SHIPCITY, Shipstate SHIPSTATE, Shipzipcode SHIPZIPCODE, Shipphone
+ SHIPPHONE, Shipfax SHIPFAX, Shipemail SHIPEMAIL, Billfirstname BILLFIRSTNAME, B
+illlastname BILLLASTNAME, Billaddress BILLADDRESS, Billcity BILLCITY, Billstate 
+BILLSTATE, Billzipcode BILLZIPCODE, Billphone BILLPHONE, Billfax BILLFAX, Billem
+ail BILLEMAIL, Dtordered DTORDERED, Shipprovince SHIPPROVINCE, Shipcountry SHIPC
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+OUNTRY, Billprovince BILLPROVINCE, Billcountry BILLCOUNTRY, Cardtype CARDTYPE, C
+ardnumber CARDNUMBER, Expmonth EXPMONTH, Expyear EXPYEAR, Cardname CARDNAME, Shi
+pbill SHIPBILL, Shipflag SHIPFLAG FROM "SYS"."BB_BASKET""                       
+CURSOR                      .5
+
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+                                      1 
+"DECLARE lv_bask_num NUMBER:=12; lv_idshopper_num bb_basket.idshopper%TYPE; lv_d
+ateordered_date bb_basket.dtordered%TYPE;  BEGIN order_info_pkg.basket_info_pp(l
+v_bask_num,lv_idshopper_num, lv_dateordered_date); DBMS_OUTPUT.PUT_LINE(lv_idsho
+pper_num); DBMS_OUTPUT.PUT_LINE(lv_dateordered_date); END;"                     
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+CURSOR                      .5
+
+                                      1 
+"SELECT IDSHOPPER, DTORDERED FROM BB_BASKET WHERE IDBASKET = :B1 "              
+CURSOR                      .5
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+                                      1 
+BB_SHIP_VU                                                                      
+VIEW                         3
+
+                                      1 
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+ORDER_INFO_PKG                                                                  
+PACKAGE BODY                 4
+
+                                      2 
+"DECLARE lv_bask_num NUMBER:=12; lv_idshopper_num bb_basket.idshopper%TYPE; lv_d
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+ateordered_date bb_basket.dtordered%TYPE; lv_customername_name VARCHAR2(12);  BE
+GIN order_info_pkg.basket_info_pp(lv_bask_num,lv_idshopper_num, lv_dateordered_d
+ate, lv_customername_name); DBMS_OUTPUT.PUT_LINE(lv_idshopper_num); DBMS_OUTPUT.
+PUT_LINE(lv_dateordered_date); DBMS_OUTPUT.PUT_LINE(lv_customername_name); END;"
+CURSOR                     4.5
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+                                      2 
+"DECLARE lv_bask_num NUMBER:=12; lv_idshopper_num bb_basket.idshopper%TYPE; lv_d
+ateordered_date bb_basket.dtordered%TYPE;  BEGIN order_info_pkg.basket_info_pp(l
+v_bask_num,lv_idshopper_num, lv_dateordered_date); DBMS_OUTPUT.PUT_LINE(lv_idsho
+pper_num); DBMS_OUTPUT.PUT_LINE(lv_dateordered_date); END;"                     
+
+                           NESTED_LEVEL
+---------------------------------------
+NAME
+--------------------------------------------------------------------------------
+TYPE
+-------------------
+      SEQ#
+----------
+CURSOR                     4.5
+
+
+ 10 rows selected 
+
+
+***********************************************************************************
+
+
+8-6
+
+
+table deptree_temptab
+
+procedure deptree_fill (type char, schema char, name char) is
+  obj_id number;
+
+view ideptree (dependencies)
+
+***********************************************************************************
+
+
+8-7
+
+
+Using %rowtype and select * instead of individual column names. %ROWTYPE ensures that if data types change dependencies also change, select * 
+ensures that queries that no longer contain a column that was previously referenced don't then produce a error. 
+
+***********************************************************************************
+
+8-8
+
+Direct dependencies are when one object is directly calling another object. Indirect is when one object calls a object that in turn calls another object, 
+the first and third objects now contain indirect dependencies. Remote dependencies are dependecies that exist between one instance of oracle and another instance
+typically housed on seperate servers. Direct dependencies become invalid when either of the objects is altered and recompilation needs to be done manually. 
+Indirect dependencies are not invalidated when you make changes and are automatically recompiled at runtime. Remote dependecies are invalidated when either the 
+link is severed or if objects are altered and are automatically recompiled at next link. 

@@ -1,0 +1,657 @@
+5-1
+
+CREATE OR REPLACE PROCEDURE prod_name_sp
+ (p_prodid IN bb_product.idproduct%TYPE,
+   p_descrip IN bb_product.description%TYPE)
+ IS
+BEGIN
+  UPDATE bb_product
+   SET description = p_descrip
+    WHERE idproduct = p_prodid;
+ COMMIT;
+END;
+
+Procedure PROD_NAME_SP compiled
+
+
+SELECT * FROM
+bb_product;
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         1 CapressoBar Model #351    
+A fully programmable pump espresso machine and 10-cup coffee maker complete with
+ GoldTone filter                                                                
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+capresso.gif                   99.99                                         1 
+                                   E            2         23          0 
+        12
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         2 Capresso Ultima           
+Coffee and Espresso and Cappuccino Machine. Brews from one espresso to two six o
+unce cups of coffee                                                             
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+capresso2.gif                 129.99                                         1 
+                                   E            2         15          0 
+         9
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         3 Eileen 4-cup French Press 
+A unique coffeemaker from those proud craftsmen in windy Normandy.              
+frepress.gif                    32.5                                         1 
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+                                   E            2         30          0 
+        15
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         4 Coffee Grinder            
+Avoid blade grinders! This mill grinder allows you to choose a fine grind to a c
+oarse grind.                                                                    
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+grind.gif                       28.5                                         1 
+                                   E            2         26          0 
+        25
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         5 Sumatra                   
+Spicy and intense with herbal aroma.                                            
+sumatra.jpg                     10.5                                         1 
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+                                   C            1         41          0 
+        45
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         6 Guatamala                 
+heavy body, spicy twist, aromatic and smokey flavor.                            
+Guatamala.jpg                     10 01-JUN-12 15-JUN-12          8          1 
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+                                   C            1         42          0 
+        35
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         7 Columbia                  
+dry, nutty flavor and smoothness                                                
+columbia.jpg                    10.8                                         1 
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+                                   C            1         61          0 
+        35
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         8 Brazil                    
+well-balanced mellow flavor, a medium body with hints of cocoa and a mild, nut-l
+ike aftertaste                                                                  
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+brazil.jpg                      10.8                                         1 
+                                   C            1         53          0 
+        35
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+         9 Ethiopia                  
+distinctive berry-like flavor and aroma, reminds many of a fruity, memorable win
+e.                                                                              
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+ethiopia.jpg                      10                                         1 
+                                   C            1         54          0 
+        35
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+        10 Espresso                  
+dense, caramel-like sweetness with a soft acidity. Roasted somewhat darker than 
+traditional Italian.                                                            
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+espresso.jpg                      10                                         1 
+                                   C            1         50         50 
+        50
+
+ 10 rows selected 
+
+
+***********************************************************************************
+
+5-2
+
+
+CREATE or REPLACE 
+PROCEDURE prod_add_sp (p_idproduct in bb_product.idproduct%type, 
+ p_prodname in bb_product.productname%type,
+ p_descrip in bb_product.description%type, 
+ p_prodimage in bb_product.productimage%type, 
+ p_prodprice in bb_product.price%type,
+ p_prodactive in bb_product.active%type) 
+ IS
+BEGIN 
+ INSERT INTO bb_product(idproduct,productname,description,
+productimage,price,active)
+VALUES (p_idproduct,p_prodname,p_descrip,
+p_prodimage,p_prodprice,p_prodactive);
+
+COMMIT; 
+END;
+
+
+Procedure PROD_ADD_SP compiled
+
+BEGIN
+ PROD_ADD_SP(11,'Roasted Blend', 'Well-balanced
+mix of roasted beans, a medium body', 'roasted.jpg',9.50,1);
+END;
+
+PL/SQL procedure successfully completed.
+
+
+SELECT * FROM BB_PRODUCT WHERE IDPRODUCT=11;
+
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+        11 Roasted Blend             
+Well-balanced                                                                   
+mix of roasted beans, a medium body                                             
+
+ IDPRODUCT PRODUCTNAME
+---------- -------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+PRODUCTIMAGE                   PRICE SALESTART SALEEND    SALEPRICE     ACTIVE
+------------------------- ---------- --------- --------- ---------- ----------
+  FEATURED FEATURESTART FEATUREEND T IDDEPARTMENT      STOCK    ORDERED
+---------- ------------ ---------- - ------------ ---------- ----------
+   REORDER
+----------
+roasted.jpg                      9.5                                         1 
+                                                                        
+
+
+
+***********************************************************************************
+
+5-3
+
+
+CREATE OR REPLACE PROCEDURE TAX_COST_SP (
+state IN bb_tax.state%TYPE,
+subTotal IN NUMBER,
+taxAmount OUT NUMBER) IS
+BEGIN
+   DECLARE stateCnt NUMBER;
+   BEGIN
+      Select count(*) INTO stateCnt FROM BB_TAX WHERE state = state;
+      IF stateCnt >= 1 THEN
+         SELECT taxrate * subTotal INTO taxAmount FROM
+            ( SELECT * FROM bb_tax where state=state )
+         WHERE ROWNUM = 1;
+      ELSE
+         taxAmount := 0;
+      END IF;
+   END;
+END TAX_COST_SP;
+
+Procedure TAX_COST_SP compiled
+
+DECLARE 
+lv_taxamount_num NUMBER;
+BEGIN
+TAX_COST_SP ('VA', '100', lv_taxamount_num );
+DBMS_OUTPUT.PUT_LINE('Total tax = ' ||lv_taxamount_num+);
+END;
+
+
+Total tax = 4.5
+
+***********************************************************************************
+
+5-4
+
+CREATE OR REPLACE PROCEDURE basket_confirm_sp
+( p_basketid IN bb_basket.idbasket%type,
+ p_subtotal IN bb_basket.subtotal%type,
+ p_shipping IN bb_basket.shipping%type,
+ p_tax IN bb_basket.tax%type,
+ p_total IN bb_basket.total%type)
+IS
+ BEGIN
+  UPDATE bb_basket
+	SET subtotal=p_subtotal,
+	    shipping=p_shipping,
+	    tax=p_tax,
+	    total=p_total
+		 
+          WHERE idbasket=p_basketid;
+	    COMMIT;
+END;
+	
+BASKET_CONFIRM_SP Compiled
+
+
+INSERT INTO BB_BASKET (IDBASKET, QUANTITY, IDSHOPPER,
+ORDERPLACED, SUBTOTAL, TOTAL,
+SHIPPING, TAX, DTCREATED, PROMO)
+VALUES (17, 2, 22, 0, 0, 0, 0, 0, '28-FEB-12', 0);
+INSERT INTO BB_BASKETITEM (IDBASKETITEM, IDPRODUCT, PRICE,
+QUANTITY, IDBASKET, OPTION1, OPTION2)
+VALUES (44, 7, 10.8, 3, 17, 2, 3);
+INSERT INTO BB_BASKETITEM (IDBASKETITEM, IDPRODUCT, PRICE,
+QUANTITY, IDBASKET, OPTION1, OPTION2)
+VALUES (45, 8, 10.8, 3, 17, 2, 3);
+
+COMMIT;
+
+1 row inserted.
+
+1 row inserted.
+
+
+1 row inserted.
+
+
+Commit complete.
+
+BEGIN
+BASKET_CONFIRM_SP(17, 64.80, 8.00, 1.94, 74.74);
+END;
+ 
+
+PL/SQL procedure successfully completed.
+
+SELECT subtotal, shipping, tax, total, orderplaced
+FROM bb_basket
+WHERE idbasket=17;
+
+
+  SUBTOTAL   SHIPPING        TAX      TOTAL ORDERPLACED
+---------- ---------- ---------- ---------- -----------
+      64.8          8       1.94      74.74         0
+
+***********************************************************************************
+
+
+5-5
+
+CREATE OR REPLACE PROCEDURE status_ship_sp
+ (p_basketnum IN bb_basketstatus.idbasket%type,
+  p_dateship IN bb_basketstatus.dtstage%type,
+  p_shipper IN bb_basketstatus.shipper%type,
+  p_tracking IN bb_basketstatus.shippingnum%type)
+ IS
+  
+ BEGIN
+  INSERT INTO bb_basketstatus
+     (idstatus, idbasket, dtstage, shipper, shippingnum, idstage)
+    VALUES (bb_status_seq.nextval, p_basketnum, p_dateship, p_shipper, p_tracking,3);
+    
+  END;
+
+Procedure STATUS_SHIP_SP compiled
+
+BEGIN
+status_ship_sp (3,'20-FEB-12','UPS','ZW2384YXK4957');
+END;
+
+PL/SQL procedure successfully completed.
+
+SELECT * FROM BB_BASKETSTATUS WHERE BB_BASKETSTATUS.idbasket=3;
+
+  IDSTATUS   IDBASKET    IDSTAGE DTSTAGE
+---------- ---------- ---------- ---------
+NOTES                                              SHIPP SHIPPINGNUM        
+-------------------------------------------------- ----- --------------------
+         1          3          1 24-JAN-12 
+                                                                             
+
+         2          3          5 25-JAN-12 
+Customer called to confirm shipment                UPS   ZW845584GD89H569    
+
+        35          3          3 20-FEB-12 
+                                                   UPS   ZW2384YXK4957    
+ 
+***********************************************************************************
+
+5-6
+
+CREATE OR REPLACE PROCEDURE status_sp
+(p_basket IN bb_basket.idbasket%TYPE,
+p_date OUT DATE,
+p_desc OUT VARCHAR2)
+IS
+CURSOR cur_status IS
+SELECT idstage, dtstage
+FROM bb_basketstatus
+WHERE idbasket = p_basket
+ORDER BY dtstage DESC;
+lv_stage_num bb_basketstatus.idstage%TYPE;
+BEGIN
+OPEN cur_status;
+FETCH cur_status INTO lv_stage_num, p_date;
+IF lv_stage_num = 1 THEN
+p_desc := 'Submitted and received';
+ELSIF lv_stage_num = 2 THEN
+p_desc := 'confirmed, processed, sent to shipping';
+ELSIF lv_stage_num = 3 THEN
+p_desc := 'Shipped';
+ELSIF lv_stage_num = 4 THEN
+p_desc := 'Cancelled';
+ELSIF lv_stage_num = 5 THEN
+p_desc := 'Backordered';
+END IF;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('No Status Available');
+end;
+/
+
+Procedure STATUS_SP compiled
+
+
+***********************************************************************************
+
+5-7
+
+Brewbean’s wants to offer an incentive of free shipping to customers who haven’t returned to
+the site since a specified date. Create a procedure named PROMO_SHIP_SP that determines
+who these customers are and then updates the BB_PROMOLIST table accordingly. The
+procedure uses the following information:
+•Date cutoff—Any customers who haven’t shopped on the site since this date
+should be included as incentive participants. Use the basket creation date to
+reflect shopper activity dates.
+•Month—A three-character month (such as APR) should be added to the promotion
+table to indicate which month free shipping is effective.
+•Year—A four-digit year indicates the year the promotion is effective.
+•promo_flag—1 represents free shipping.
+The BB_PROMOLIST table also has a USED column, which contains the default value N
+and is updated to Y when the shopper uses the promotion. Test the procedure with the cutoff
+date 15-FEB-12. Assign free shipping for the month APR and the year 2012.
+
+create or replace
+procedure promo_ship_sp
+  (p_date in date)
+is
+  cursor cur_promo is
+    select idshopper, max(dtcreated) createdate
+    from bb_basket
+    group by idshopper
+    having max(dtcreated) < p_date;
+  type t_rec is record
+    (shopperid  bb_basket.idshopper%type,
+    createdate  bb_basket.dtcreated%type);
+    rec_promo t_rec;
+    v_month     char(3) := 'APR';
+    v_year      number(4,0) := 2012;
+    v_promoflag number(1,0) := 1;
+    v_used      char(1) := 'N';
+begin
+  open cur_promo;
+  loop
+  fetch cur_promo into rec_promo;
+  exit when cur_promo%notfound;
+  insert into bb_promolist
+  values (rec_promo.shopperid, v_month,v_year,v_promoflag,v_used);
+  end loop;
+  close cur_promo;
+END PROMO_SHIP_SP;
+
+Procedure PROMO_SHIP_SP compiled
+***********************************************************************************
+
+
+5-8
+
+create or replace procedure basket_add_sp
+(p_baskid IN number, p_prodid IN number,
+p_price IN number, p_qua IN number,
+p_sizecode IN number, p_formcode IN number)
+IS 
+BEGIN
+INSERT into bb_basketitem (idbasketitem,idproduct, price, quantity, idbasket, option1, option2)
+VALUES (bb_idbasketitem_seq.nextval ,p_prodid, p_price, p_qua, p_baskid, p_sizecode, p_formcode);
+END;
+
+Procedure BASKET_ADD_SP compiled
+
+
+
+***********************************************************************************
+
+
+5-9
+
+create or replace PROCEDURE member_ck_sp(p_user IN VARCHAR2,p_pass IN VARCHAR2) 
+IS
+lv_check_txt VARCHAR2(10) := 'INVALID';
+lv_fullname_txt VARCHAR2(25);
+CURSOR MEMBER_CUR 
+IS
+SELECT firstname, lastname, cookie, username, password
+FROM bb_shopper
+WHERE username = p_user
+AND password = p_pass;
+
+BEGIN
+FOR REC_CUR IN MEMBER_CUR LOOP
+IF p_user = rec_cur.username AND p_pass = rec_cur.password THEN
+lv_fullname_txt := rec_cur.firstname || ' ' || rec_cur.lastname;
+dbms_output.put_line('Welcome: ' || lv_fullname_txt
+|| 'Cookie: ' || rec_cur.cookie);
+ELSIF
+p_user != rec_cur.username OR p_pass != rec_cur.password THEN
+dbms_output.put_line(lv_check_txt);
+END IF;
+END LOOP;
+END member_ck_sp;
+
+Procedure MEMBER_CK_SP compiled
+
+begin 
+member_ck_sp('rat55', 'kile'); 
+end;
+
+PL/SQL procedure successfully completed.
+
+Welcome: Kenny RatmanCookie: 0
+
+begin
+member_ck_sp('rat', 'kile'); 
+end;
+

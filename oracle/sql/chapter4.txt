@@ -1,0 +1,201 @@
+
+
+Hands On Assignement
+
+1.
+
+SQL> SET LINESIZE 120;
+SQL> SET PAGESIZE 120;
+SQL> CREATE TABLE store_reps
+  2  (rep_ID NUMBER(5),
+  3  last VARCHAR2(15),
+  4  first VARCHAR2(10),
+  5  comm CHAR(1) DEFAULT 'Y',
+  6  CONSTRAINT store_reps_rep_ID_pk PRIMARY KEY (rep_ID));
+
+Table created.
+
+
+
+2.
+
+SQL> ALTER TABLE store_reps
+  2  MODIFY( last NOT NULL, first NOT NULL);
+
+Table altered.
+   
+
+                                               
+3.
+
+SQL> ALTER TABLE store_reps
+  2  ADD CONSTRAINT store_reps_comm_ck CHECK ( comm IN ('Y', 'N'));
+
+Table altered.
+
+
+
+
+4.
+SQL> ALTER TABLE store_reps
+  2  ADD ( Base_salary NUMBER(7,2), CONSTRAINT store_reps_Base_salary_ck CHECK (Base_salary > 0));
+
+Table altered.
+
+
+
+
+
+5.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  CREATE TABLE book_stores
+  2      ( Store_ID NUMBER(8),
+  3      Name VARCHAR2(30) NOT NULL,
+  4      Contact VARCHAR2(30),
+  5      Rep_ID VARCHAR2(5),
+  6      CONSTRAINT book_stores_Store_ID_pk PRIMARY KEY (Store_ID),
+  7*     CONSTRAINT book_stores_Name_uk UNIQUE (Name))
+SQL> /
+Table created.
+
+
+
+6.
+
+SQL> ALTER TABLE book_stores
+  2  ADD CONSTRAINT book_stores_rep_ID_fk FOREIGN KEY ( rep_ID) REFERENCES Store_reps (rep_ID);
+ADD CONSTRAINT book_stores_rep_ID_fk FOREIGN KEY ( rep_ID) REFERENCES Store_reps (rep_ID)
+                                                   *
+ERROR at line 2:
+ORA-02267: column type incompatible with referenced column type
+
+SQL> ALTER TABLE book_stores
+  2  MODIFY ( rep_ID NUMBER(5));
+Table altered.
+
+SQL> ALTER TABLE book_stores
+  2  ADD CONSTRAINT book_stores_rep_ID_fk FOREIGN KEY ( rep_ID) REFERENCES Store_reps (rep_ID);
+Table altered.
+
+
+
+7.
+
+SQL> ALTER TABLE book_stores
+  2  DROP CONSTRAINT book_stores_rep_ID_fk;
+Table altered.
+
+SQL>  ALTER TABLE book_stores
+  2   ADD CONSTRAINT book_stores_rep_ID_fk FOREIGN KEY ( rep_ID) REFERENCES Store_reps (rep_ID) ON DELETE CASCADE;
+Table altered.
+
+
+
+
+8.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  CREATE TABLE REP_CONTACTS
+  2  (Store_ID NUMBER(8),
+  3  Name NUMBER(5),
+  4  Quarter CHAR(3),
+  5  Rep_ID NUMBER(5),
+  6  CONSTRAINT rep_contacts_pk PRIMARY KEY (Rep_ID, Store_ID, quarter),
+  7  CONSTRAINT rep_contacts_Store_ID_fk FOREIGN KEY ( Store_ID) REFERENCES BOOK_Stores (Store_ID),
+  8* CONSTRAINT rep_contacts_rep_ID_fk FOREIGN KEY ( rep_ID) REFERENCES Store_reps (rep_ID))
+SQL> /
+
+Table created.
+                                                            
+
+
+9.
+
+   
+SQL> edit
+Wrote file afiedt.buf
+
+  1   SELECT constraint_name, constraint_type, search_condition, r_constraint_name
+  2   FROM user_constraints
+  3*  WHERE table_name = 'STORE_REPS'
+SQL> /
+
+CONSTRAINT_NAME                                              CO SEARCH_CONDITION                                                         R_CONSTRAINT_NAME
+------------------------------------------------------------ -- -------------------------------------------------------------------------------- -------------------------
+STORE_REPS_REP_ID_PK                                         P
+SYS_C007140                                                  C  "LAST" IS NOT NULL
+SYS_C007141                                                  C  "FIRST" IS NOT NULL
+STORE_REPS_COMM_CK                                           C   comm IN ('Y', 'N')
+STORE_REPS_BASE_SALARY_CK                                    C   Base_salary > 0
+
+
+10.
+
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STORE_REPS
+  2* DISABLE CONSTRAINT store_reps_base_salary_ck
+SQL> /
+
+Table altered.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  ALTER TABLE STORE_REPS
+  2* ENABLE CONSTRAINT store_reps_base_salary_ck
+SQL> /
+
+Table altered.
+
+
+
+
+Advanced 1.
+
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Project
+  2  ( Proj# NUMBER(10),
+  3  P_name VARCHAR2(30) NOT NULL,
+  4  P_desc VARCHAR2(100),
+  5  P_budget NUMBER(10,2),
+  6  CONSTRAINT Project_Proj#_pk PRIMARY KEY(Proj#),
+  7  CONSTRAINT Project_P_name UNIQUE (P_name)
+  8* )
+  9  /
+
+Table created.
+
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Workorders
+  2  (
+  3  Wo# NUMBER(8),
+  4  Proj# NUMBER(10),
+  5  Wo_desc VARCHAR2(100) NOT NULL,
+  6  Wo_assigned VARCHAR2(30),
+  7  Wo_hours NUMBER(6,2) NOT NULL,
+  8  Wo_start DATE,
+  9  Wo_due DATE,
+ 10  Wo_complete CHAR(1),
+ 11  CONSTRAINT Workorders_wo#_pk PRIMARY KEY(Wo#),
+ 12  CONSTRAINT Workorders_Proj#_fk FOREIGN KEY(Proj#) REFERENCES Project (Proj#),
+ 13  CONSTRAINT workorders_wo_desc_uk UNIQUE (wo_desc),
+ 14  CONSTRAINT workorders_wo_hours_ck CHECK (wo_hours > 0),
+ 15  CONSTRAINT Workorders_wo_complete_ck CHECK ( wo_complete IN ('Y', 'N'))
+ 16* )
+SQL> /
+
+Table created.

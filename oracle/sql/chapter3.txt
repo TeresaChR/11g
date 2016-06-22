@@ -1,0 +1,300 @@
+Matthew Brozen
+Chapter 3 Lab Assignment
+
+HANDS-ON Exercises.
+
+
+
+1). SQL> CREATE TABLE category
+  2  ( CatCode  VARCHAR2(2),
+  3    CatDesc VARCHAR2(10));
+
+Table created.
+
+SQL> DESC category;
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ CATCODE                                                                    VARCHAR2(2)
+ CATDESC                                                                    VARCHAR2(10)
+
+
+
+
+2)
+ SQL> CREATE TABLE employees
+  2  ( emp# NUMBER (5, 0),
+  3    firstname VARCHAR2 (20),
+  4    lastname VARCHAR2 (20),
+  5    job_class VARCHAR2 (2));
+
+Table created.
+
+SQL> DESC employees
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMP#                                                                       NUMBER(5,0)
+ FIRSTNAME                                                                  VARCHAR2(20)
+ LASTNAME                                                                   VARCHAR2(20)
+ JOB_CLASS                                                                  VARCHAR2(2)
+
+
+
+
+3)
+SQL> ALTER TABLE employees
+  2  ADD (empdate DATE);
+
+Table altered.
+
+SQL> ALTER TABLE employees
+  2  ADD (enddate DATE);
+
+Table altered.
+
+SQL> DESC employees
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMP#                                                                       NUMBER(5,0)
+ FIRSTNAME                                                                  VARCHAR2(20)
+ LASTNAME                                                                   VARCHAR2(20)
+ JOB_CLASS                                                                  VARCHAR2(2)
+ EMPDATE                                                                    DATE
+ ENDDATE                                                                    DATE
+
+
+
+
+4)
+ SQL> ALTER TABLE employees
+  2  MODIFY (job_class CHAR(2));
+
+Table altered.
+
+SQL> DESC employees
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMP#                                                                       NUMBER(5,0)
+ FIRSTNAME                                                                  VARCHAR2(20)
+ LASTNAME                                                                   VARCHAR2(20)
+ JOB_CLASS                                                                  CHAR(2)
+ EMPDATE                                                                    DATE
+ ENDDATE     
+
+                                                               DATE
+
+5)
+ SQL> ALTER TABLE employees
+  2  DROP COLUMN enddate;
+
+Table altered.
+
+SQL> DESC employees
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMP#                                                                       NUMBER(5,0)
+ FIRSTNAME                                                                  VARCHAR2(20)
+ LASTNAME                                                                   VARCHAR2(20)
+ JOB_CLASS                                                                  CHAR(2)
+ EMPDATE                                                                    DATE
+
+
+
+
+
+6)
+SQL> RENAME employees
+  2  TO jl_emps;
+
+Table renamed.
+
+SQL> DESC employees
+ERROR:
+ORA-04043: object employees does not exist
+
+
+SQL> DESC jl_emps
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMP#                                                                       NUMBER(5,0)
+ FIRSTNAME                                                                  VARCHAR2(20)
+ LASTNAME                                                                   VARCHAR2(20)
+ JOB_CLASS                                                                  CHAR(2)
+ EMPDATE                                                                    DATE
+
+
+
+
+7)
+SQL> CREATE TABLE book_pricing
+  2  AS (SELECT isbn "id", cost, retail, category
+  3  FROM books);
+
+Table created.
+
+SQL> DESC book_pricing
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ id                                                                         VARCHAR2(10)
+ COST                                                                       NUMBER(5,2)
+ RETAIL                                                                     NUMBER(5,2)
+ CATEGORY                                                                   VARCHAR2(12)
+
+
+
+
+8)
+
+SQL> ALTER TABLE book_pricing
+  2  SET UNUSED (category);
+
+Table altered.
+
+SQL> DESC book_pricing
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ id                                                                         VARCHAR2(10)
+ COST                                                                       NUMBER(5,2)
+ RETAIL                                                                     NUMBER(5,2)
+
+
+
+
+
+9)
+SQL> TRUNCATE TABLE
+  2  book_pricing;
+
+Table truncated.
+
+SQL> SELECT * FROM book_pricing;
+
+no rows selected
+
+
+
+
+10)
+
+SQL> DROP TABLE book_pricing
+  2  PURGE;
+
+Table dropped.
+
+SQL> SELECT table_name FROM user_tables;
+
+TABLE_NAME
+------------------------------
+CUSTOMERS
+ORDERS
+PUBLISHER
+AUTHOR
+BOOKS
+ORDERITEMS
+BOOKAUTHOR
+PROMOTION
+ACCTMANAGER
+ACCTMANAGER2
+CATEGORY
+JL_EMPS
+
+
+
+
+SQL> DROP TABLE jl_emps;
+
+Table dropped.
+
+
+SQL> SELECT object_name, original_name
+  2  FROM recyclebin;
+
+OBJECT_NAME                    ORIGINAL_NAME
+------------------------------ --------------------------------
+BIN$htMi5bhoR/GLGUOMCJ0Hjw==$0 JL_EMPS
+
+SQL> FLASHBACK TABLE jl_emps
+  2  TO BEFORE DROP;
+
+Flashback complete.
+
+SQL> SELECT table_name FROM user_tables;
+
+TABLE_NAME
+------------------------------
+CUSTOMERS
+ORDERS
+PUBLISHER
+AUTHOR
+BOOKS
+ORDERITEMS
+BOOKAUTHOR
+PROMOTION
+ACCTMANAGER
+ACCTMANAGER2
+CATEGORY
+JL_EMPS
+
+12 rows selected.
+
+ADVANCED CHALLENGE
+
+1) 
+SQL> ALTER TABLE acctmanager
+  2  ADD ( comm_id NUMBER (2,0));
+
+Table altered.
+
+SQL> ALTER TABLE acctmanager
+  2  ADD ( ben_id NUMBER (2,0));
+
+Table altered.
+
+SQL> DESC acctmanager
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ AMID                                                              NOT NULL VARCHAR2(4)
+ AMFIRST                                                           NOT NULL VARCHAR2(12)
+ AMLAST                                                            NOT NULL VARCHAR2(12)
+ AMEDATE                                                                    DATE
+ REGION                                                            NOT NULL CHAR(2)
+ COMM_ID                                                                    NUMBER(2,0)
+ BEN_ID                                                                     NUMBER(2,0)
+
+
+2)
+
+SQL> CREATE TABLE commrate
+  2  (comm_id NUMBER (2,0),
+  3   comm_rank VARCHAR2 (15),
+  4   rate NUMBER (2,2));
+
+Table created.
+
+SQL> DESC commrate
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ COMM_ID                                                                    NUMBER(2)
+ COMM_RANK                                                                  VARCHAR2(15)
+ RATE                                                                       NUMBER(2,2)
+
+
+3)
+
+SQL> CREATE TABLE benefits
+  2  (ben_id NUMBER  (2,0),
+  3   ben_plan VARCHAR2 (1),
+  4   ben_provider NUMBER (3,0),
+  5   active VARCHAR2(1));
+
+Table created.
+
+SQL> DESC benefits
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ BEN_ID                                                                     NUMBER(2)
+ BEN_PLAN                                                                   VARCHAR2(1)
+ BEN_PROVIDER                                                               NUMBER(3)
+ ACTIVE                                                                     VARCHAR2(1)
+
+
+

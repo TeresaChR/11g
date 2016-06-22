@@ -1,0 +1,320 @@
+6-1: 
+
+CREATE OR REPLACE FUNCTION dollar_fmt_sf
+(p_num NUMBER)
+RETURN VARCHAR2
+IS
+lv_amt_txt VARCHAR2(20);
+BEGIN
+lv_amt_txt := TO_CHAR(p_num,'$99,999.99');
+RETURN lv_amt_txt;
+END;
+
+Function DOLLAR_FMT_SF compiled
+
+DECLARE
+lv_amt_num NUMBER(8,2) := 9999.55;
+BEGIN
+DBMS_OUTPUT.PUT_LINE(dollar_fmt_sf(lv_amt_num));
+END;
+
+PL/SQL procedure successfully completed.
+
+ $9,999.55
+
+
+SELECT dollar_fmt_sf(shipping), dollar_fmt_sf(total)
+FROM bb_basket
+WHERE idBasket = 3;
+
+DOLLAR_FMT_SF(SHIPPING)
+--------------------------------------------------------------------------------
+DOLLAR_FMT_SF(TOTAL)
+--------------------------------------------------------------------------------
+      $5.00                                                                     
+$32.40
+
+******************************************************************************************************************************
+
+
+
+6-2:
+
+CREATE OR REPLACE FUNCTION TOT_PURCH_SF(id IN NUMBER)
+RETURN NUMBER IS
+        totalpurch NUMBER;
+BEGIN
+        SELECT SUM(total) INTO totalpurch
+        FROM BB_BASKET WHERE idshopper=id;
+        RETURN totalpurch;
+END;
+/
+
+
+VARIABLE sumValue NUMBER
+EXECUTE :sumValue := TOT_PURCH_SF (21);
+PRINT sumValue
+
+
+
+Function TOT_PURCH_SF compiled
+
+PL/SQL procedure successfully completed.
+
+  SUMVALUE
+----------
+     66.76
+
+******************************************************************************************************************************
+
+6-3:
+
+CREATE OR REPLACE FUNCTION NUM_PURCH_SF
+(shopper_id_num NUMBER)
+RETURN NUMBER
+IS
+return_value NUMBER;
+BEGIN
+SELECT COUNT(orderplaced)
+INTO return_value
+FROM bb_basket
+WHERE idshopper = shopper_id_num
+AND orderplaced = 1;
+RETURN return_value;
+END;
+
+Function NUM_PURCH_SF compiled
+
+
+
+******************************************************************************************************************************
+
+6-4:
+
+
+CREATE OR REPLACE FUNCTION DAY_ORD_SF
+(dtcreated date)
+RETURN VARCHAR2
+IS
+BEGIN
+    RETURN TO_CHAR(dtcreated,'DAY');
+END;
+/
+       
+SELECT day_ord_sf(dtcreated), count(*) as "Number of Orders"
+  FROM BB_BASKET
+  GROUP BY DAY_ORD_SF(DTCREATED)
+  ORDER BY TO_CHAR(DTCREATED,'DAY') DESC;
+       
+SELECT day_ord_sf(dtcreated), count(*) as "Number of Orders"
+FROM BB_BASKET
+GROUP BY DAY_ORD_SF(DTCREATED)
+ORDER BY TO_CHAR(MIN(DTCREATED), 'DAY') DESC;
+       
+SELECT day_ord_sf(dtcreated), count(*) as "Number of Orders"
+FROM BB_BASKET
+GROUP BY DAY_ORD_SF(DTCREATED), TO_CHAR(DTCREATED,'DAY')
+ORDER BY TO_CHAR(DTCREATED,'DAY') DESC;
+       
+SELECT TO_CHAR(TRUNC(dtcreated),'DAY'), count(*) as "Number of Orders"
+FROM BB_BASKET
+GROUP BY TRUNC(dtcreated)
+ORDER BY TRUNC(dtcreated) DESC;
+
+DAY_ORD_SF(DTCREATED)
+--------------------------------------------------------------------------------
+                       Number of Orders
+---------------------------------------
+TUESDAY                                                                         
+                                      2
+
+THURSDAY                                                                        
+                                      4
+
+SUNDAY                                                                          
+                                      3
+
+
+DAY_ORD_SF(DTCREATED)
+--------------------------------------------------------------------------------
+                       Number of Orders
+---------------------------------------
+MONDAY                                                                          
+                                      2
+
+FRIDAY                                                                          
+                                      3
+
+
+DAY_ORD_SF(DTCREATED)
+--------------------------------------------------------------------------------
+                       Number of Orders
+---------------------------------------
+TUESDAY                                                                         
+                                      2
+
+THURSDAY                                                                        
+                                      4
+
+SUNDAY                                                                          
+                                      3
+
+
+DAY_ORD_SF(DTCREATED)
+--------------------------------------------------------------------------------
+                       Number of Orders
+---------------------------------------
+MONDAY                                                                          
+                                      2
+
+FRIDAY                                                                          
+                                      3
+
+
+TO_CHAR(TRUNC(DTCREATED),'DAY')                             Number of Orders
+------------------------------------ ---------------------------------------
+FRIDAY                                                                     1
+THURSDAY                                                                   1
+MONDAY                                                                     1
+FRIDAY                                                                     1
+SUNDAY                                                                     2
+THURSDAY                                                                   1
+TUESDAY                                                                    1
+SUNDAY                                                                     1
+FRIDAY                                                                     1
+THURSDAY                                                                   1
+TUESDAY                                                                    1
+
+TO_CHAR(TRUNC(DTCREATED),'DAY')                             Number of Orders
+------------------------------------ ---------------------------------------
+THURSDAY                                                                   1
+MONDAY                                                                     1
+
+ 13 rows selected 
+
+******************************************************************************************************************************
+
+6-5:
+
+CREATE OR REPLACE FUNCTION ord_ship_sf
+(     p_shipped      NUMBER
+,     p_notshipped      NUMBER
+)
+RETURN VARCHAR2
+DETERMINISTIC
+IS
+     lv_shipped_txt      VARCHAR2 (5);
+BEGIN
+     IF p_shipped = 5 THEN
+          lv_shipped_txt := 'OK';
+     ELSIF p_notshipped = 1 THEN          
+          lv_shipped_txt := 'CHECK';
+     END IF;
+
+     RETURN lv_shipped_txt;               
+END;
+/ 
+
+Function ORD_SHIP_SF compiled
+
+
+DECLARE
+  lv_idbasket_num NUMBER(3);
+  lv_id_num NUMBER(3);
+  lv_text VARCHAR2(6);
+  begin
+  lv_text:= ord_ship_sf(5,1);
+  dbms_output.put_line(lv_text);
+  end;
+
+PL/SQL procedure successfully completed.
+
+OK
+
+
+******************************************************************************************************************************
+
+6-6;
+
+CREATE OR REPLACE FUNCTION status_desc_sf
+  (p_stage IN NUMBER)
+  RETURN VARCHAR2
+ IS
+  lv_stage_txt VARCHAR2(30);
+BEGIN
+ IF p_stage = 1 THEN
+   lv_stage_txt := 'Order Submitted';
+ ELSIF p_stage = 2 THEN
+   lv_stage_txt := 'Accepted, sent to shipping';
+ ELSIF p_stage = 3 THEN
+   lv_stage_txt := 'Backordered';
+ ELSIF p_stage = 4 THEN
+   lv_stage_txt := 'Cancelled';
+ ELSIF p_stage = 5 THEN
+   lv_stage_txt := 'Shipped';
+ END IF;
+ RETURN lv_stage_txt;
+END;
+
+Function STATUS_DESC_SF compiled
+
+
+
+******************************************************************************************************************************
+
+
+6-7:
+
+CREATE OR REPLACE FUNCTION tax_calc_sf
+(p_id IN NUMBER)
+RETURN bb_basket.subtotal%TYPE
+IS
+lv_state_txt bb_basket.shipstate%TYPE;
+lv_subtot_num bb_basket.subtotal%TYPE;
+lv_tax_num NUMBER := 0;
+BEGIN
+SELECT subtotal, shipstate
+INTO lv_subtot_num, lv_state_txt
+FROM bb_basket
+WHERE idbasket = p_id;
+IF lv_state_txt = 'VA' THEN
+lv_tax_num := lv_subtot_num * .045;
+ELSIF lv_state_txt = 'NC' THEN
+lv_tax_num := lv_subtot_num * .03;
+ELSIF lv_state_txt = 'SC' THEN
+lv_tax_num := lv_subtot_num * .06;
+END IF;
+RETURN lv_tax_num;
+END;
+
+
+Function TAX_CALC_SF compiled
+
+
+
+******************************************************************************************************************************
+
+6-8:
+
+  CREATE OR REPLACE FUNCTION ck_sale_sf
+  (p_date IN bb_product.salestart%type,
+   p_product IN bb_product.idproduct%type)
+  RETURN VARCHAR2
+  IS
+   lv_startdate bb_product.salestart%type;
+   lv_enddate bb_product.saleend%type;
+   lv_status VARCHAR2(10);
+ BEGIN
+ SELECT salestart, saleend
+  INTO lv_startdate, lv_enddate
+   FROM bb_product  
+    WHERE p_product=idproduct;
+  IF TO_CHAR(lv_startdate)<=TO_CHAR(p_date) AND TO_CHAR(P_DATE)<=TO_CHAR(lv_enddate) 
+   THEN lv_status:='ON SALE!';
+  ELSE lv_status:='Great Deal!';
+  END IF;
+ RETURN lv_status;
+ END ck_sale_sf;
+
+Function CK_SALE_SF compiled
+

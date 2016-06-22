@@ -1,0 +1,247 @@
+4-1
+
+DECLARE
+   CURSOR cur_basket IS
+     SELECT bi.idBasket, bi.quantity, p.stock
+       FROM bb_basketitem bi INNER JOIN bb_product p
+         USING (idProduct)
+       WHERE bi.idBasket = 6;
+   TYPE type_basket IS RECORD (
+     basket bb_basketitem.idBasket%TYPE,
+     qty bb_basketitem.quantity%TYPE,
+     stock bb_product.stock%TYPE);
+   rec_basket type_basket;
+   lv_flag_txt CHAR(1) := 'Y';
+BEGIN
+   OPEN cur_basket;
+   LOOP 
+     FETCH cur_basket INTO rec_basket;
+      EXIT WHEN cur_basket%NOTFOUND;
+      IF rec_basket.stock < rec_basket.qty THEN lv_flag_txt := 'N'; END IF;
+   END LOOP;
+   CLOSE cur_basket;
+   IF lv_flag_txt = 'Y' THEN DBMS_OUTPUT.PUT_LINE('All items in stock!'); END IF;
+   IF lv_flag_txt = 'N' THEN DBMS_OUTPUT.PUT_LINE('All items NOT in stock!'); END IF;   
+END;
+
+PL/SQL procedure successfully completed.
+
+All items in stock!
+
+
+
+*************************************************************************************************************************************************
+
+
+4-2
+
+DECLARE
+   CURSOR cur_shopper IS
+     SELECT a.idShopper, a.promo,  b.total                          
+       FROM bb_shopper a, (SELECT b.idShopper, SUM(bi.quantity*bi.price) total
+                            FROM bb_basketitem bi, bb_basket b
+                            WHERE bi.idBasket = b.idBasket
+                            GROUP BY idShopper) b
+        WHERE a.idShopper = b.idShopper
+     FOR UPDATE OF a.idShopper NOWAIT;
+   lv_promo_txt CHAR(1);
+BEGIN
+  FOR rec_shopper IN cur_shopper LOOP
+   lv_promo_txt := 'X';
+   IF rec_shopper.total > 100 THEN 
+          lv_promo_txt := 'A';
+   END IF;
+   IF rec_shopper.total BETWEEN 50 AND 99 THEN 
+          lv_promo_txt := 'B';
+   END IF;   
+   IF lv_promo_txt <> 'X' THEN
+     UPDATE bb_shopper
+      SET promo = lv_promo_txt
+      WHERE CURRENT OF cur_shopper;
+   END IF;
+  END LOOP;
+  COMMIT;
+END;
+
+PL/SQL procedure successfully completed.
+
+SELECT idShopper, s.promo, SUM(bi.quantity*bi.price) total
+ FROM bb_shopper s INNER JOIN bb_basket b USING(idShopper)
+     INNER JOIN bb_basketitem bi USING(idBasket)
+     GROUP BY idShopper, s.promo
+     ORDER BY idShopper;
+     
+
+ IDSHOPPER P      TOTAL
+---------- - ----------
+        21 B       55.1
+        22 A     191.59
+        23 B       64.8
+        24         48.9
+        25 B       72.4
+        26           20
+        27         32.4
+
+ 7 rows selected 
+
+*************************************************************************************************************************************************
+
+
+4-3
+
+BEGIN
+ UPDATE bb_shopper
+  SET promo = NULL
+  WHERE promo IS NOT NULL;
+DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT||' Rows Created');
+END;
+
+
+4 Rows Created
+
+
+
+*************************************************************************************************************************************************
+
+4-4
+
+
+DECLARE
+  lv_tax_num NUMBER(2,2);
+BEGIN
+ CASE  'NJ' 
+  WHEN 'VA' THEN lv_tax_num := .04;
+  WHEN 'NC' THEN lv_tax_num := .02;  
+  WHEN 'NY' THEN lv_tax_num := .06;  
+ END CASE;
+ DBMS_OUTPUT.PUT_LINE('tax rate = '||lv_tax_num);
+EXCEPTION
+ WHEN CASE_NOT_FOUND THEN 
+  DBMS_OUTPUT.PUT_LINE('No tax');
+END;
+
+No tax
+
+
+
+*************************************************************************************************************************************************
+
+
+
+4-5
+
+DECLARE
+ rec_shopper bb_shopper%ROWTYPE;
+BEGIN
+ SELECT *
+  INTO rec_shopper
+  FROM bb_shopper
+  WHERE idShopper = ??;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+   DBMS_OUTPUT.PUT_LINE('INVALID SHOPPER ID');
+END;
+
+INVALID SHOPPER ID
+
+*************************************************************************************************************************************************
+
+
+4-6
+
+ALTER TABLE bb_basketitem
+  ADD CONSTRAINT bitems_qty_ck CHECK (quantity < 20);
+DECLARE
+  ex_ch EXCEPTION;
+  PRAGMA EXCEPTION_INIT(ex_ch,-2290);
+BEGIN
+  INSERT INTO bb_basketitem 
+   VALUES (88,8,10.8,21,16,2,3);
+EXCEPTION
+   WHEN ex_ch THEN
+    DBMS_OUTPUT.PUT_LINE('CHECK QUANTITY');
+END;
+
+CHECK QUANTITY
+
+
+*************************************************************************************************************************************************
+
+
+
+4-7
+
+DECLARE
+  ex_invalidoldbasketid EXCEPTION;
+  lv_old_num NUMBER:=30;
+  lv_new_num NUMBER:=4;
+
+BEGIN
+  UPDATE bb_basketitem
+   SET idBasket = lv_new_num
+   WHERE idBasket = lv_old_num;
+  IF SQL%NOTFOUND THEN
+    RAISE ex_invalidoldbasketid;
+  END IF;
+EXCEPTION
+  WHEN ex_invalidoldbasketid THEN
+   DBMS_OUTPUT.PUT_LINE('Invalid original basket ID');
+END;
+
+Invalid original basket ID
+
+*************************************************************************************************************************************************
+
+
+
+4-8
+
+
+DECLARE
+
+CURSOR cur_emp IS
+SELECT empno, sal
+FROM employee
+WHERE job <> 'PRESIDENT';
+lv_cursal_num NUMBER(6);
+lv_raise_num NUMBER(6);
+lv_newsal_num NUMBER(6);
+v_salinc_num NUMBER(6):=0;
+
+
+BEGIN
+
+FOR rec_emp IN cur_emp LOOP
+lv_cursal_num := rec_emp.sal * 12;
+lv_raise_num := rec_emp.sal * 12 * .06;
+lv_newsal_num := lv_cursal_num + lv_raise_num;
+IF lv_raise_num > 2000 THEN
+lv_raise_num := 2000;
+lv_newsal_num := lv_cursal_num + lv_raise_num;
+
+END IF;
+
+v_salinc_num := v_salinc_num + lv_raise_num;
+
+Dbms_Output.put_line('Emp no: ' || rec_emp.empno ||' Current Annual Salary: ' ||             lv_cursal_num ||
+' Salary Raise: ' ||lv_raise_num||' Proposed New Annual Salary: '||lv_newsal_num);
+END LOOP;
+
+Dbms_Output.put_line('Total annual increment: ' || v_salinc_num);
+
+END;
+
+Emp no: 7698 Current Annual Salary: 34200 Salary Raise: 2000 Proposed New Annual Salary: 36200
+Emp no: 7782 Current Annual Salary: 29400 Salary Raise: 1764 Proposed New Annual Salary: 31164
+Emp no: 7566 Current Annual Salary: 35700 Salary Raise: 2000 Proposed New Annual Salary: 37700
+Emp no: 7654 Current Annual Salary: 15000 Salary Raise: 900 Proposed New Annual Salary: 15900
+Emp no: 7499 Current Annual Salary: 19200 Salary Raise: 1152 Proposed New Annual Salary: 20352
+Emp no: 7844 Current Annual Salary: 18000 Salary Raise: 1080 Proposed New Annual Salary: 19080
+Emp no: 7900 Current Annual Salary: 11400 Salary Raise: 684 Proposed New Annual Salary: 12084
+Emp no: 7521 Current Annual Salary: 15000 Salary Raise: 900 Proposed New Annual Salary: 15900
+Emp no: 7902 Current Annual Salary: 36000 Salary Raise: 2000 Proposed New Annual Salary: 38000
+Emp no: 7369 Current Annual Salary: 9600 Salary Raise: 576 Proposed New Annual Salary: 10176
+Emp no: 7788 Current Annual Salary: 36000 Salary Raise: 2000 Proposed New Annual Salary: 38000
+Emp no: 7876 Current Annual Salary: 13200 Salary Raise: 792 Proposed New Annual Salary: 13992
+Emp no: 7934 Current Annual Salary: 15600 Salary Raise: 936 Proposed New Annual Salary: 16536
+Total annual increment: 16784

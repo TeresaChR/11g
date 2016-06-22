@@ -1,0 +1,407 @@
+7-1
+
+CREATE OR REPLACE PACKAGE order_info_pkg IS
+FUNCTION ship_name_pf 
+(p_basket IN NUMBER)
+RETURN VARCHAR2;
+PROCEDURE basket_info_pp
+(p_basket IN NUMBER,
+p_shop OUT NUMBER,
+p_date OUT DATE);
+END;
+/
+CREATE OR REPLACE PACKAGE BODY order_info_pkg IS
+FUNCTION ship_name_pf 
+(p_basket IN NUMBER)
+RETURN VARCHAR2
+IS
+lv_name_txt VARCHAR2(25);
+BEGIN
+SELECT shipfirstname||' '||shiplastname
+INTO lv_name_txt
+FROM bb_basket
+WHERE idBasket = p_basket;
+RETURN lv_name_txt;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+END ship_name_pf;
+PROCEDURE basket_info_pp
+(p_basket IN NUMBER,
+p_shop OUT NUMBER,
+p_date OUT DATE)
+IS
+BEGIN
+SELECT idshopper, dtordered
+INTO p_shop, p_date
+FROM bb_basket
+WHERE idbasket = p_basket;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+END basket_info_pp;
+END;
+/
+
+**************************************************************************************************************************
+
+7-2
+
+CREATE OR REPLACE PACKAGE order_info_pkg IS
+ FUNCTION ship_name_pf  
+   (p_basket IN NUMBER)
+   RETURN VARCHAR2;
+ PROCEDURE basket_info_pp
+  (p_basket IN NUMBER,
+   p_shop OUT NUMBER,
+   p_date OUT DATE);
+END;
+/
+CREATE OR REPLACE PACKAGE BODY order_info_pkg IS
+ FUNCTION ship_name_pf  
+   (p_basket IN NUMBER)
+   RETURN VARCHAR2
+  IS
+   lv_name_txt VARCHAR2(25);
+ BEGIN
+  SELECT shipfirstname||' '||shiplastname
+   INTO lv_name_txt
+   FROM bb_basket
+   WHERE idBasket = p_basket;
+  RETURN lv_name_txt;
+ EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+     DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+ END ship_name_pf;
+ PROCEDURE basket_info_pp
+  (p_basket IN NUMBER,
+   p_shop OUT NUMBER,
+   p_date OUT DATE)
+  IS
+ BEGIN
+   SELECT idshopper, dtordered
+    INTO p_shop, p_date
+    FROM bb_basket
+    WHERE idbasket = p_basket;
+ EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+     DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+ END basket_info_pp;
+END;
+/
+
+
+DECLARE
+lv_bask_num NUMBER:=12;
+lv_idshopper_num bb_basket.idshopper%TYPE;
+lv_dateordered_date bb_basket.dtordered%TYPE;
+
+BEGIN
+order_info_pkg.basket_info_pp(lv_bask_num,lv_idshopper_num, lv_dateordered_date);
+DBMS_OUTPUT.PUT_LINE(lv_idshopper_num);
+DBMS_OUTPUT.PUT_LINE(lv_dateordered_date);
+END;
+
+25
+19-FEB-12
+
+**************************************************************************************************************************
+
+7-3
+
+CREATE OR REPLACE PACKAGE order_info_pkg IS
+ PROCEDURE basket_info_pp
+  (p_basket IN NUMBER,
+   p_shop OUT NUMBER,
+   p_date OUT DATE,
+   p_name OUT VARCHAR2);
+END;
+/
+CREATE OR REPLACE PACKAGE BODY order_info_pkg IS
+ FUNCTION ship_name_pf  
+   (p_basket IN NUMBER)
+   RETURN VARCHAR2
+  IS
+   lv_name_txt VARCHAR2(25);
+ BEGIN
+  SELECT shipfirstname||' '||shiplastname
+   INTO lv_name_txt
+   FROM bb_basket
+   WHERE idBasket = p_basket;
+  RETURN lv_name_txt;
+ EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+     DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+ END ship_name_pf;
+ PROCEDURE basket_info_pp
+  (p_basket IN NUMBER,
+   p_shop OUT NUMBER,
+   p_date OUT DATE,
+   p_name OUT VARCHAR2 )
+  IS
+ BEGIN
+   SELECT idshopper, dtordered
+    INTO p_shop, p_date
+    FROM bb_basket
+    WHERE idbasket = p_basket;
+   p_name := ship_name_pf(p_basket);
+ EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+     DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+ END basket_info_pp;
+END;
+
+
+DECLARE
+lv_bask_num NUMBER:=12;
+lv_idshopper_num bb_basket.idshopper%TYPE;
+lv_dateordered_date bb_basket.dtordered%TYPE;
+lv_customername_name VARCHAR2(12);
+
+BEGIN
+order_info_pkg.basket_info_pp(lv_bask_num,lv_idshopper_num, lv_dateordered_date, lv_customername_name);
+DBMS_OUTPUT.PUT_LINE(lv_idshopper_num);
+DBMS_OUTPUT.PUT_LINE(lv_dateordered_date);
+DBMS_OUTPUT.PUT_LINE(lv_customername_name);
+END;
+
+
+25
+19-FEB-12
+
+
+**************************************************************************************************************************
+
+
+7-4
+
+set serveroutput on
+CREATE OR REPLACE PACKAGE login_pkg IS 
+FUNCTION log_in_pf
+(p_username IN VARCHAR2,
+p_password IN VARCHAR2,
+p_ck IN OUT CHAR)
+RETURN CHAR;
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY login_pkg
+IS
+   FUNCTION log_in_pf 
+   (p_username IN VARCHAR2,
+    p_password IN VARCHAR2,
+    p_ck IN OUT CHAR)
+      RETURN CHAR
+   IS
+      lv_username_txt   bb_shopper.username%TYPE;
+      lv_password_txt   bb_shopper.PASSWORD%TYPE;
+   BEGIN
+      SELECT username, PASSWORD
+        INTO lv_username_txt, lv_password_txt
+        FROM bb_shopper
+       WHERE username = p_username AND PASSWORD = p_password;
+
+      IF lv_username_txt || lv_password_txt = p_username || p_password
+      THEN
+         p_ck := 'Y';
+      ELSE
+         p_ck := 'N';
+      END IF;
+
+      RETURN p_ck;
+   EXCEPTION
+      WHEN NO_DATA_FOUND
+      THEN
+         DBMS_OUTPUT.put_line ('Invalid username or password');
+        return 'N' ;  
+   END log_in_pf;
+END;
+
+
+DECLARE
+lv_check_ch CHAR;
+BEGIN
+lv_check_ch:=login_pkg.log_in_pf('gmal','goofy',lv_check_ch);
+dbms_output.put_line(lv_check_ch);
+END;
+
+**************************************************************************************************************************
+
+7-5
+
+CREATE OR REPLACE PACKAGE shop_query_pkg IS
+      procedure shop_info
+      (p_id1 IN bb_shopper.idshopper%TYPE,
+       p_firstname1 OUT bb_shopper.firstname%TYPE);
+      procedure shop_info
+      (p_id2 IN bb_shopper.lastname%TYPE,
+       p_firstname2 OUT bb_shopper.firstname%TYPE);
+END;
+/
+CREATE OR REPLACE PACKAGE BODY shop_query_pkg 
+   IS
+    procedure shop_info
+    (p_id1 IN bb_shopper.idshopper%TYPE, 
+     p_firstname1 out bb_shopper.firstname%TYPE)
+      IS
+        BEGIN
+            SELECT firstname into p_firstname1 FROM bb_shopper WHERE idshopper = p_id1;
+        EXCEPTION
+        WHEN NO_DATA_FOUND 
+        THEN 
+            DBMS_OUTPUT.PUT_LINE('ID does not exist');
+        END;    
+    procedure shop_info
+    (p_id2 IN bb_shopper.lastname%TYPE, 
+     p_firstname2 OUT bb_shopper.firstname%TYPE)
+       IS
+        BEGIN
+            SELECT firstname into p_firstname2 FROM bb_shopper WHERE lastname = p_id2;
+        EXCEPTION
+        WHEN NO_DATA_FOUND 
+        THEN 
+            DBMS_OUTPUT.PUT_LINE('Last name does not exist');
+        END;
+END;
+/
+
+DECLARE
+lv_holder bb_shopper.firstname%TYPE;
+BEGIN
+shop_query_pkg.shop_info(23, lv_holder);
+dbms_output.put_line(lv_holder);
+END;
+
+Kenny
+
+DECLARE
+lv_holder bb_shopper.firstname%TYPE;
+BEGIN
+shop_query_pkg.shop_info('Ratman', lv_holder);
+dbms_output.put_line(lv_holder);
+END;
+
+Kenny
+
+
+**************************************************************************************************************************
+
+7-6
+
+CREATE OR REPLACE PACKAGE TAXRATE_PKG
+IS
+pv_tax_nc CONSTANT NUMBER := .35;
+pv_tax_tx CONSTANT NUMBER := .05;
+pv_tax_tn CONSTANT NUMBER := .02;
+END;
+
+BEGIN
+DBMS_OUTPUT.PUT_LINE(TAXRATE_PKG.pv_tax_nc);
+DBMS_OUTPUT.PUT_LINE(TAXRATE_PKG.pv_tax_tx);
+DBMS_OUTPUT.PUT_LINE(TAXRATE_PKG.pv_tax_tn);
+END;
+
+.35
+.05
+.02
+
+
+**************************************************************************************************************************
+
+
+7-7
+
+CREATE OR REPLACE PACKAGE tax_update
+AS
+ TYPE gencur IS ref cursor
+ RETURN bb_tax%rowtype;
+  FUNCTION tax_sf
+  (
+     p_state IN bb_tax.state%type
+  )
+  RETURN gencur;
+  END;
+ /
+ CREATE OR REPLACE PACKAGE BODY tax_update
+ AS
+  FUNCTION tax_sf
+  (
+    p_state IN bb_tax.state%type
+  )
+  RETURN gencur
+  IS
+   return_value tax_update.gencur;
+ BEGIN
+  OPEN return_value FOR 
+   SELECT * 
+   FROM bb_tax
+   WHERE state = p_state;
+  RETURN return_value;
+ END tax_sf;
+END tax_update;
+/ 
+
+
+SET SERVEROUTPUT ON
+DECLARE
+    tax_cur tax_update.gencur;
+    rec_tax bb_tax%rowtype;
+BEGIN
+    tax_cur := tax_update.tax_sf('NC');
+    LOOP
+      FETCH tax_cur INTO rec_tax;
+      EXIT WHEN tax_cur%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE(rec_tax.taxrate);
+    END LOOP;
+END;
+/
+
+
+.03
+
+
+**************************************************************************************************************************
+
+
+
+7-8
+
+
+CREATE OR REPLACE PACKAGE login_pkg IS
+ pv_dateandtime_date DATE;
+ pv_id_num NUMBER(3);
+ FUNCTION login_ck_pf 
+  (p_user IN VARCHAR2,
+   p_pass IN VARCHAR2)
+   RETURN CHAR;
+END;
+/
+CREATE OR REPLACE PACKAGE BODY login_pkg IS
+ FUNCTION login_ck_pf 
+  (p_user IN VARCHAR2,
+   p_pass IN VARCHAR2)
+   RETURN CHAR
+  IS
+   lv_ck_txt CHAR(1) := 'N';
+   lv_id_num NUMBER(5);
+ BEGIN
+   SELECT idShopper
+    INTO lv_id_num
+    FROM bb_shopper
+    WHERE username = p_user
+     AND password = p_pass;
+      lv_ck_txt := 'Y';
+      pv_id_num := lv_id_num;
+   RETURN lv_ck_txt;
+ EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+   RETURN lv_ck_txt;
+ END; 
+BEGIN
+SELECT TO_CHAR
+    (SYSDATE, 'MM-DD-YYYY HH24:MI:SS') "NOW"
+     FROM DUAL;
+END;
+
+
+

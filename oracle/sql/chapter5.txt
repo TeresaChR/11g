@@ -1,0 +1,173 @@
+Hands On Assignments
+
+1.
+
+SQL> INSERT INTO orders (order#, customer#, orderdate)
+  2  VALUES (1021, 1009, '20-jul-09');
+
+1 row created.
+
+2.
+
+SQL> UPDATE orders
+  2  SET shipzip = 33222
+  3  WHERE customer#=1017;
+
+1 row updated.
+
+
+
+3.
+
+SQL> COMMIT;
+
+Commit complete.
+
+
+4.
+
+SQL> INSERT INTO orders (order#, customer#, orderdate)
+  2  VALUES (1022, 2000, '06-aug-09');
+INSERT INTO orders (order#, customer#, orderdate)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.ORDERS_CUSTOMER#_FK) violated - parent key not found
+
+
+The error is that the number is outside of the range for that column and is not associated with a parent key. 
+
+5.
+
+SQL> INSERT INTO orders (order#, customer#, orderdate)
+  2  VALUES (1022, 2000, '06-aug-09');
+INSERT INTO orders (order#, customer#, orderdate)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.ORDERS_CUSTOMER#_FK) violated - parent key not found
+
+The error is that you have to include a value for the orderdate column because it is defined as not null.
+
+6-7.
+
+SQL> UPDATE orders
+  2  SET isbn = '&Isbn'
+  3  WHERE cost = '&cost';
+Enter value for isbn: 1059831198
+old   2: SET isbn = '&Isbn'
+new   2: SET isbn = '1059831198'
+Enter value for cost: 20
+old   3: WHERE cost = '&cost'
+new   3: WHERE cost = '20'
+
+22 rows updated.
+
+8. 
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+9.
+
+I don't know
+
+10. 
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+
+Advanced
+
+1. 
+
+
+SQL> CREATE TABLE category
+  2  (catcode VARCHAR2(3),
+  3  catdesc VARCHAR2(11),
+  4    CONSTRAINT cat_catcode_pk PRIMARY KEY (catcode));
+
+Table created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('BUS', 'BUSINESS');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('chn', 'children');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('cok', 'cooking');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('com', 'computer');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('fal', 'family life');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('fit', 'fitness');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('seh', 'self help');
+
+1 row created.
+
+SQL> INSERT INTO category (catcode, catdesc)
+  2  VALUES ('lit', 'literature');
+
+1 row created.
+
+
+2.
+
+SQL> ALTER TABLE books
+  2  ADD(catcode VARCHAR2(3));
+
+Table altered.
+
+
+3. 
+
+SQL> ALTER TABLE orders
+  2  ADD CONSTRAINT orders_catcode_fk FOREIGN KEY (catcode)
+  3  REFERENCES category (catcode);
+
+
+Table altered.
+
+4. 
+
+SQL> SELECT constraint_name, constraint_type, search_condition, r_constraint_name
+  2  FROM user_constraints
+  3  WHERE table_name = 'books';
+
+SQL> ALTER TABLE books
+  2  DROP COLUMN category;
+
+Table altered.
+
+5. 
+
+SQL> ALTER TABLE books
+  2  DROP COLUMN category;
+
+Table altered.
+
+
+
+
+
+

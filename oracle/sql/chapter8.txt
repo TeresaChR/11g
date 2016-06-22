@@ -1,0 +1,319 @@
+Hands On Assignment
+
+1.
+
+
+SQL> SELECT Lastname, Firstname, State
+  2  FROM CUSTOMERS
+  3  WHERE State = 'NJ';
+
+LASTNAME   FIRSTNAME  ST
+---------- ---------- --
+SMITH      JENNIFER   NJ
+FALAH      KENNETH    NJ
+
+
+
+2.
+
+
+SQL> SELECT Order#, shipdate
+  2  FROM ORDERS
+  3  WHERE shipdate > '01-APR-2009';
+
+    ORDER# SHIPDATE
+---------- ---------
+      1000 02-APR-09
+      1004 05-APR-09
+      1005 02-APR-09
+      1006 02-APR-09
+      1007 04-APR-09
+      1008 03-APR-09
+      1009 05-APR-09
+      1010 04-APR-09
+      1011 05-APR-09
+      1013 04-APR-09
+      1014 05-APR-09
+      1017 05-APR-09
+
+
+3.
+
+
+SQL> SELECT Title, CATEGORY
+  2  FROM BOOKS
+  3  WHERE Category NOT IN 'FITNESS';
+
+TITLE                          CATEGORY
+------------------------------ ------------
+REVENGE OF MICKEY              FAMILY LIFE
+BUILDING A CAR WITH TOOTHPICKS CHILDREN
+DATABASE IMPLEMENTATION        COMPUTER
+COOKING WITH MUSHROOMS         COOKING
+HOLY GRAIL OF ORACLE           COMPUTER
+HANDCRANKED COMPUTERS          COMPUTER
+E-BUSINESS THE EASY WAY        COMPUTER
+PAINLESS CHILD-REARING         FAMILY LIFE
+THE WOK WAY TO COOK            COOKING
+BIG BEAR AND LITTLE DOVE       CHILDREN
+HOW TO GET FASTER PIZZA        SELF HELP
+HOW TO MANAGE THE MANAGER      BUSINESS
+SHORTEST POEMS                 LITERATURE
+
+13 rows selected.
+
+
+
+
+
+4.
+
+
+MEHOTD ONE
+SQL> SELECT Customer#, Lastname, State
+  2  FROM Customers
+  3  WHERE State = 'GA' OR State = 'NJ'
+  4  ORDER BY Lastname;
+
+ CUSTOMER# LASTNAME   ST
+---------- ---------- --
+      1020 FALAH      NJ
+      1010 LUCAS      GA
+      1018 MONTIASA   GA
+      1019 SMITH      NJ
+
+METHOD TWO
+SQL> SELECT Customer#, Lastname, State
+  2  FROM CUSTOMERS
+  3  WHERE STATE IN ('GA', 'NJ')
+  4  ORDER BY Lastname;
+
+ CUSTOMER# LASTNAME   ST
+---------- ---------- --
+      1020 FALAH      NJ
+      1010 LUCAS      GA
+      1018 MONTIASA   GA
+      1019 SMITH      NJ
+
+
+
+5.
+
+METHOD ONE
+SQL> SELECT Order#, Orderdate
+  2  FROM ORDERS
+  3  WHERE Orderdate <= '01-APR-2009';
+
+    ORDER# ORDERDATE
+---------- ---------
+      1000 31-MAR-09
+      1001 31-MAR-09
+      1002 31-MAR-09
+      1003 01-APR-09
+      1004 01-APR-09
+      1005 01-APR-09
+      1006 01-APR-09
+
+7 rows selected.
+
+METHOD TWO
+SQL> SELECT Order#, Orderdate
+  2  FROM ORDERS
+  3  WHERE orderdate < '01-APR-2009' or orderdate = '01-APR-2009';
+
+    ORDER# ORDERDATE
+---------- ---------
+      1000 31-MAR-09
+      1001 31-MAR-09
+      1002 31-MAR-09
+      1003 01-APR-09
+      1004 01-APR-09
+      1005 01-APR-09
+      1006 01-APR-09
+
+7 rows selected.
+
+
+
+
+6.
+
+
+SQL> SELECT LNAME,FNAME
+  2  FROM AUTHOR
+  3  WHERE LNAME LIKE '%IN%'
+  4  ORDER BY LNAME, FNAME;
+
+LNAME      FNAME
+---------- ----------
+AUSTIN     JAMES
+MARTINEZ   SHEILA
+ROBINSON   ROBERT
+WILKINSON  ANTHONY
+
+
+
+
+7.
+
+
+SQL> SELECT Lastname, Referred
+  2  FROM Customers
+  3  WHERE Referred IS NOT NULL;
+
+LASTNAME     REFERRED
+---------- ----------
+GIANA            1003
+PEREZ            1003
+NGUYEN           1006
+DAUM             1010
+SMITH            1003
+
+
+
+
+
+8.
+
+
+(A) SEARCH PATTERN
+SQL> SELECT Title, Category
+  2  FROM BOOKS
+  3  WHERE Category LIKE 'C%N%';
+
+TITLE                          CATEGORY
+------------------------------ ------------
+BUILDING A CAR WITH TOOTHPICKS CHILDREN
+COOKING WITH MUSHROOMS         COOKING
+THE WOK WAY TO COOK            COOKING
+BIG BEAR AND LITTLE DOVE       CHILDREN
+
+(B) LOGIC OPERATOR
+SQL> SELECT Title, Category
+  2  FROM BOOKS
+  3  WHERE Category = 'CHILDREN' OR Category = 'COOKING';
+
+TITLE                          CATEGORY
+------------------------------ ------------
+BUILDING A CAR WITH TOOTHPICKS CHILDREN
+COOKING WITH MUSHROOMS         COOKING
+THE WOK WAY TO COOK            COOKING
+BIG BEAR AND LITTLE DOVE       CHILDREN
+
+(C) IN OPERATOR
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Title, Category
+  2  FROM BOOKS
+  3* WHERE Category IN( 'CHILDREN', 'COOKING')
+SQL> /
+
+TITLE                          CATEGORY
+------------------------------ ------------
+BUILDING A CAR WITH TOOTHPICKS CHILDREN
+COOKING WITH MUSHROOMS         COOKING
+THE WOK WAY TO COOK            COOKING
+BIG BEAR AND LITTLE DOVE       CHILDREN
+
+
+
+
+9.
+
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT ISBN, TITLE
+  2  FROM BOOKS
+  3  WHERE Title LIKE '_A_N%'
+  4* ORDER BY Title desc
+SQL> /
+
+ISBN       TITLE
+---------- ------------------------------
+2491748320 PAINLESS CHILD-REARING
+
+
+
+10.
+
+
+(A) RANGE OPERATOR
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Title, PubDate
+  2  FROM Books
+  3* WHERE Category = 'COMPUTER' AND PubDate BETWEEN '01-JAN-05' AND '31-DEC-05'
+SQL> /
+
+TITLE                          PUBDATE
+------------------------------ ---------
+HOLY GRAIL OF ORACLE           31-DEC-05
+HANDCRANKED COMPUTERS          21-JAN-05
+
+(B) LOGIC OPERATOR
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Title, PubDate
+  2  FROM Books
+  3* WHERE Category = 'COMPUTER' AND (PubDate >='01-JAN-05' AND PubDate <= '31-DEC-05')
+SQL> /
+
+TITLE                          PUBDATE
+------------------------------ ---------
+HOLY GRAIL OF ORACLE           31-DEC-05
+HANDCRANKED COMPUTERS          21-JAN-05
+
+(C) SEARCH PATTERN OPERATION
+
+SQL> select title, pubdate from books
+  2  where category LIKe 'COMPT%'and pubdate LIKE '%05';
+
+TITLE                          PUBDATE
+------------------------------ ---------
+HOLY GRAIL OF ORACLE           31-DEC-05
+HANDCRANKED COMPUTERS          21-JAN-05
+
+
+
+
+Advance Challenge 
+
+1.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Title, retail-cost-discount AS Profit
+  2  FROM BOOKS
+  3  WHERE (retail-cost-discount) >= 10
+  4* ORDER BY "Profit" desc
+SQL> /
+
+TITLE                              PROFIT
+------------------------------ ----------
+PAINLESS CHILD-REARING              37.45
+HOLY GRAIL OF ORACLE                 24.9
+BUILDING A CAR WITH TOOTHPICKS      19.15
+HOW TO GET FASTER PIZZA              10.6
+
+
+
+
+2.
+
+
+SQL> SELECT *
+  2  FROM Books
+  3  WHERE (Category = 'COMPUTER' OR Category = 'FAMILY LIFE') AND (PubID = 1 OR PubID = 3) AND retail >= 45;
+
+ISBN       TITLE                          PUBDATE        PUBID       COST     RETAIL   DISCOUNT CATEGORY
+---------- ------------------------------ --------- ---------- ---------- ---------- ---------- ------------
+8843172113 DATABASE IMPLEMENTATION        04-JUN-03          3       31.4      55.95            COMPUTER
+3957136468 HOLY GRAIL OF ORACLE           31-DEC-05          3      47.25      75.95        3.8 COMPUTER
+
+

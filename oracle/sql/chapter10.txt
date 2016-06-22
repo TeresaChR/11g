@@ -1,0 +1,222 @@
+Matthew Brozen
+Chapter 11 Lab Assignment 
+
+1.
+
+SQL> SELECT COUNT(CATEGORY)
+  2  FROM BOOKS
+  3  WHERE Category = 'COOKING';
+
+COUNT(CATEGORY)
+---------------
+              2
+
+
+2.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(TITLE)
+  2  FROM BOOKS
+  3* WHERE Retail > 30
+SQL> /
+
+COUNT(TITLE)
+------------
+           8
+
+3.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT MAX (Pubdate)
+  2* FROM Books
+SQL> /
+
+MAX(PUBDA
+---------
+11-NOV-06
+ 
+
+4.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT SUM((oi.paideach-b.cost)*oi.quantity) AS PROFIT
+  2  FROM Customers c JOIN Orders o USING (customer#)
+  3                   JOIN Orderitems oi USING (order#)
+  4                   JOIN Books b USING (ISBN)
+  5* WHERE CUSTOMER# = 1017
+SQL> /
+
+    PROFIT
+----------
+     55.28
+
+5.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Category, MIN(retail)
+  2  FROM Books
+  3  GROUP BY Category
+  4* HAVING Category = 'COMPUTER'
+SQL> /
+
+CATEGORY     MIN(RETAIL)
+------------ -----------
+COMPUTER              25
+
+
+6.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT AVG(sum((oi.paideach-b.cost)*oi.quantity)) AS "Average Profit"
+  2  FROM Orders o JOIN Orderitems oi USING(order#)
+  3                JOIN Books b USING(isbn)
+  4* GROUP BY Order#
+SQL> /
+
+Average Profit
+--------------
+    31.9438095
+
+
+
+7.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT customer#, count(o.order#)
+  2  FROM customers c JOIN orders o USING (customer#)
+  3* GROUP BY customer#
+SQL> /
+
+ CUSTOMER# COUNT(O.ORDER#)
+---------- ---------------
+      1011               1
+      1003               2
+      1017               1
+      1001               2
+      1007               2
+      1010               2
+      1004               1
+      1015               1
+      1005               2
+      1014               1
+      1008               1
+      1020               2
+      1018               2
+      1019               1
+
+14 rows selected.
+
+
+8.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT p.name, b.category, AVG(b.retail), GROUPING(p.name), GROUPING(b.category)
+  2  FROM books b JOIN publisher p USING (pubid)
+  3  WHERE category IN ('COMPUTER', 'CHILDREN')
+  4  GROUP BY CUBE(p.name, b.category)
+  5* HAVING AVG(b.retail) > 50
+SQL> /
+
+NAME                    CATEGORY     AVG(B.RETAIL) GROUPING(P.NAME) GROUPING(B.CATEGORY)
+----------------------- ------------ ------------- ---------------- --------------------
+                        COMPUTER             52.85                1                    0
+PUBLISH OUR WAY                             57.225                0                    1
+PUBLISH OUR WAY         CHILDREN             59.95                0                    0
+PUBLISH OUR WAY         COMPUTER              54.5                0                    0
+AMERICAN PUBLISHING                           52.3                0                    1
+AMERICAN PUBLISHING     COMPUTER              52.3                0                    0
+
+6 rows selected.
+
+
+9.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT customer#, sum( oi.quantity*oi.paideach)
+  2  FROM Customers c JOIN Orders o USING(Customer#)
+  3              JOIN Orderitems oi USING(Order#)
+  4  WHERE c.state IN ('GA', 'FL')
+  5  GROUP BY customer#
+  6* HAVING sum( oi.quantity*oi.paideach)>80
+SQL> /
+
+ CUSTOMER# SUM(OI.QUANTITY*OI.PAIDEACH)
+---------- ----------------------------
+      1003                       139.95
+      1001                       182.75
+      1010                       202.85
+
+
+10.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1   SELECT MAX(b.retail)
+  2   FROM books b JOIN bookauthor ba USING (isbn)
+  3                JOIN author a USING (authorid)
+  4*  WHERE a.lname = 'WHITE' AND a.fname = 'LISA'
+SQL> /
+
+MAX(B.RETAIL)
+-------------
+        39.95
+
+
+
+Advance Challenge 
+
+
+
+PART I: Books that didn't generate profit, could be that no copy was ever sold or this book generated a profit less than 50%
+SQL> edit
+Wrote file afiedt.buf
+
+  1   SELECT DISTINCT b.title, TO_CHAR((oi.paideach-b.cost)/ cost * 100 ,'999.99') AS "Profit%"
+  2   FROM books b LEFT OUTER JOIN orderitems oi USING (isbn)
+  3                LEFT OUTER JOIN orders a USING (order#)
+  4*  WHERE (oi.paideach-b.cost)/cost * 100 < 55
+SQL> /
+
+TITLE                          Profit%
+------------------------------ -------
+E-BUSINESS THE EASY WAY          43.80
+HANDCRANKED COMPUTERS            14.68
+REVENGE OF MICKEY                54.93
+HOLY GRAIL OF ORACLE             52.70
+
+
+
+PART II: # of copies sold for books generating a less than 50% profit. 
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT b.title, sum(oi.quantity)
+  2  FROM books b LEFT OUTER JOIN orderitems oi USING (isbn)
+  3               LEFT OUTER JOIN orders a USING (order#)
+  4  WHERE (NVL(oi.paideach,0)-b.cost)/cost * 100 < 55
+  5* GROUP BY b.title
+SQL> /
+
+TITLE                          SUM(OI.QUANTITY)
+------------------------------ ----------------
+HANDCRANKED COMPUTERS                         2
+HOLY GRAIL OF ORACLE                          3
+E-BUSINESS THE EASY WAY                       2
+REVENGE OF MICKEY                             5

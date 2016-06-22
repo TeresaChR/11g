@@ -1,0 +1,268 @@
+Matthew Brozen
+Chapter 12 Lab Assignment 
+
+
+1.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT title, retail
+  2  FROM BOOKS
+  3  WHERE retail <
+  4*       (SELECT AVG(retail) FROM books)
+SQL> /
+
+TITLE                              RETAIL
+------------------------------ ----------
+BODYBUILD IN 10 MINUTES A DAY       30.95
+REVENGE OF MICKEY                      22
+COOKING WITH MUSHROOMS              19.95
+HANDCRANKED COMPUTERS                  25
+THE WOK WAY TO COOK                 28.75
+BIG BEAR AND LITTLE DOVE             8.95
+HOW TO GET FASTER PIZZA             29.95
+HOW TO MANAGE THE MANAGER           31.95
+SHORTEST POEMS                      39.95
+
+9 rows selected.
+
+
+2.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT title, cost, category, categoryavg
+  2  FROM books JOIN (SELECT Category, AVG(cost) CategoryAvg
+  3                   FROM Books
+  4                   GROUP BY Category) 
+  5             USING (Category)
+  6* WHERE cost < categoryavg
+  7  /
+
+TITLE                                COST CATEGORY     CATEGORYAVG
+------------------------------ ---------- ------------ -----------
+HANDCRANKED COMPUTERS                21.8 COMPUTER         34.5875
+DATABASE IMPLEMENTATION              31.4 COMPUTER         34.5875
+COOKING WITH MUSHROOMS               12.5 COOKING            15.75
+BIG BEAR AND LITTLE DOVE             5.32 CHILDREN           21.56
+REVENGE OF MICKEY                    14.2 FAMILY LIFE         31.1
+
+
+3.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT Order#
+  2  FROM Orders
+  3  WHERE shipstate = (SELECT Shipstate
+  4                     FROM Orders
+  5*                    WHERE Order# = 1014 ) AND order# <> 1014
+SQL> /
+
+    ORDER#
+----------
+      1007
+ 
+
+4.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT order#, SUM(paideach*quantity) AS TOTAL_AMOUNT
+  2  FROM orderitems
+  3  GROUP BY order#
+  4  HAVING SUM(paideach*quantity) > (SELECT SUM(paideach*quantity) AS TOTAL_AMOUNT
+  5                                   FROM orderitems
+  6                                   WHERE order# = 1008
+  7*                                  GROUP BY order#)
+SQL> /
+
+    ORDER# TOTAL_AMOUNT
+---------- ------------
+      1003       106.85
+      1009        41.95
+      1011        85.45
+      1013        55.95
+      1016        85.45
+      1006         54.5
+      1001        117.4
+      1002        111.9
+      1007       335.85
+      1004        170.9
+      1010        55.95
+      1005        39.95
+      1014           44
+      1012        166.4
+      1018         75.9
+
+15 rows selected.
+
+5.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT authorid, Lname, Fname
+  2  FROM author
+  3  WHERE authorid = ( SELECT authorid
+  4                     FROM orderitems o JOIN books b USING(isbn)
+  5                                       JOIN bookauthor ba USING (isbn)
+  6                                       JOIN author a USING (authorid)
+  7                     GROUP BY authorid
+  8                     HAVING COUNT(authorid) = ( SELECT MAX(count(authorid))
+  9                                                FROM orderitems o JOIN books b USING(isbn)
+ 10                                                                  JOIN bookauthor ba USING (isbn)
+ 11                                                GROUP BY authorid
+ 12                                               )
+ 13*                   )
+SQL> /
+
+AUTH LNAME      FNAME
+---- ---------- ----------
+B100 BAKER      JACK
+
+
+6.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT title, category
+  2  FROM books
+  3  WHERE category IN ( SELECT DISTINCT b.category
+  4                      FROM Orderitems oi JOIN orders o USING(order#)
+  5                                         JOIN customers c USING(customer#)
+  6                                         JOIN books b USING (isbn)
+  7                      WHERE customer# = 1007)
+  8  AND title NOT IN ( SELECT DISTINCT b.title
+  9                      FROM Orderitems oi JOIN orders o USING(order#)
+ 10                                         JOIN customers c USING(customer#)
+ 11                                         JOIN books b USING (isbn)
+ 12                      WHERE customer# = 1007)
+ 13* ORDER BY Category
+SQL> /
+
+TITLE                          CATEGORY
+------------------------------ ------------
+BUILDING A CAR WITH TOOTHPICKS CHILDREN
+HANDCRANKED COMPUTERS          COMPUTER
+PAINLESS CHILD-REARING         FAMILY LIFE
+
+
+7.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  select ORDER#, SHIPCITY, SHIPSTATE
+  2  from Orders
+  3  WHERE (Shipdate-Orderdate) = (SELECT MAX (Shipdate-Orderdate)
+  4*                               FROM orders)
+SQL> /
+
+    ORDER# SHIPCITY        SH
+---------- --------------- --
+      1004 TRENTON         NJ
+
+
+
+8.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT customer#, LastName, FirstName
+  2  FROM customers JOIN orders USING (customer#)
+  3                 JOIN orderitems USING (order#)
+  4                 JOIN books USING (isbn)
+  5  WHERE retail = (SELECT MIN(retail)
+  6*                 FROM books)
+SQL> /
+
+ CUSTOMER# LASTNAME   FIRSTNAME
+---------- ---------- ----------
+      1007 GIANA      TAMMY
+      1017 NELSON     BECCA
+      1015 SCHELL     STEVE
+
+
+9.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT COUNT(distinct customer#) AS "# of Customers"
+  2  FROM customers JOIN orders USING(customer#)
+  3                 JOIN orderitems USING(order#)
+  4                 JOIN books USING(isbn)
+  5                 JOIN bookauthor USING(isbn)
+  6                 JOIN author USING(authorid)
+  7  WHERE authorid = (SELECT authorid
+  8                    FROM Author
+  9*                   WHERE Lname = 'AUSTIN' AND Fname = 'JAMES')
+SQL> /
+
+# of Customers
+--------------
+             5
+
+
+10.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT title
+  2  FROM books b JOIN publisher p USING(pubid)
+  3  WHERE p.name = ( SELECT p.name
+  4                   FROM books b JOIN publisher p USING(pubid)
+  5*                  WHERE b.title = 'THE WOK WAY TO COOK')
+SQL> /
+
+TITLE
+------------------------------
+BODYBUILD IN 10 MINUTES A DAY
+COOKING WITH MUSHROOMS
+THE WOK WAY TO COOK
+HOW TO GET FASTER PIZZA
+
+
+Advance Challenge 
+
+1.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT sum(quantity*paideach*0.015)
+  2* FROM Orderitems
+SQL> /
+
+SUM(QUANTITY*PAIDEACH*0.015)
+----------------------------
+                    25.32075
+
+2.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT SUM(SUM(quantity*paideach))*0.04
+  2  FROM Orderitems
+  3  GROUP BY order#
+  4  HAVING SUM(quantity*paideach)
+  5             > (SELECT AVG(SUM(quantity*paideach))
+  6                FROM Orderitems
+  7*               GROUP BY Order#)
+SQL> /
+
+SUM(SUM(QUANTITY*PAIDEACH))*0.04
+--------------------------------
+                          47.208
+
+CONCLUSION: Company will not lose money by accepting credit card! The credit card surchage
+amounts to $ 25. 32 for all recent orders, as suppose to the "Uncollectible Payments" which amounts to $47.21.

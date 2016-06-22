@@ -1,0 +1,785 @@
+10-1
+
+CREATE OR REPLACE TRIGGER reorder_trg
+ AFTER UPDATE OF stock ON bb_product
+ FOR EACH ROW
+DECLARE
+ v_msg  VARCHAR2(50);
+ v_status NUMBER;
+BEGIN
+ IF :NEW.stock<:OLD.reorder THEN
+  DBMS_ALERT.REGISTER('reorder');
+  DBMS_ALERT.SIGNAL('Reorder',TO_CHAR(:new.idproduct));
+  DBMS_ALERT.WAITONE('Reorder', v_msg, v_status, 600);
+ END IF;
+END;
+/
+
+Trigger REORDER_TRG compiled
+
+BEGIN
+DBMS_ALERT.REGISTER('reorder');
+END;
+
+PL/SQL procedure successfully completed.
+
+DECLARE
+lv_msg_txt VARCHAR2(25);
+lv_status_num NUMBER(1);
+BEGIN
+DBMS_ALERT.WAITONE('reorder', lv_msg_txt, lv_status_num, 120);
+DBMS_OUTPUT.PUT_LINE('Alert: '|| lv_msg_txt);
+DBMS_OUTPUT.PUT_LINE('Status: '|| lv_status_num);
+END;
+
+PL/SQL procedure successfully completed.
+
+UPDATE bb_product
+SET stock = stock - 2
+WHERE idproduct = 4;
+COMMIT;
+
+Commit complete.
+
+reorder
+
+***************************************************************************************************************************************************************
+
+10-2
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_type = 'PROCEDURE';
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+SHIP_COST_SP                                                                    
+VALID  
+
+ORDER_TOTAL_SP                                                                  
+VALID  
+
+ORDER_TOTAL_SP2                                                                 
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+STOCK_CK_SP                                                                     
+VALID  
+
+MEMBER_CK_SP                                                                    
+VALID  
+
+LOGIN_SP                                                                        
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+LOGIN2_SP                                                                       
+VALID  
+
+TEST_NOCOPY_SP                                                                  
+VALID  
+
+RUN_NOCOPY_SP                                                                   
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+BASK_CALC_SP                                                                    
+VALID  
+
+STATUS_SP                                                                       
+VALID  
+
+PROMO_TEST_SP                                                                   
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+TC_TEST_SP2                                                                     
+VALID  
+
+TC_TEST_SP1                                                                     
+VALID  
+
+PHONE_FMT_SP                                                                    
+VALID  
+
+
+ 15 rows selected 
+
+CREATE PROCEDURE bb_jobtest
+ (job IN NUMBER,
+  msg IN VARCHAR2)
+ IS
+BEGIN
+   INSERT INTO bb_jobq (jobnum, msg)
+     VALUES (job,msg);
+   COMMIT;
+END;
+
+Procedure BB_JOBTEST compiled
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_type = 'PROCEDURE';
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+BB_JOBTEST                                                                      
+VALID  
+
+SHIP_COST_SP                                                                    
+VALID  
+
+ORDER_TOTAL_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+ORDER_TOTAL_SP2                                                                 
+VALID  
+
+STOCK_CK_SP                                                                     
+VALID  
+
+MEMBER_CK_SP                                                                    
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+LOGIN_SP                                                                        
+VALID  
+
+LOGIN2_SP                                                                       
+VALID  
+
+TEST_NOCOPY_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+RUN_NOCOPY_SP                                                                   
+VALID  
+
+BASK_CALC_SP                                                                    
+VALID  
+
+STATUS_SP                                                                       
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PROMO_TEST_SP                                                                   
+VALID  
+
+TC_TEST_SP2                                                                     
+VALID  
+
+TC_TEST_SP1                                                                     
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PHONE_FMT_SP                                                                    
+VALID  
+
+
+ 16 rows selected 
+
+
+
+ALTER TABLE bb_jobq
+MODIFY (msg VARCHAR2(30));
+
+Table BB_JOBQ altered.
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_type = 'PROCEDURE';
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+BB_JOBTEST                                                                      
+INVALID
+
+SHIP_COST_SP                                                                    
+VALID  
+
+ORDER_TOTAL_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+ORDER_TOTAL_SP2                                                                 
+VALID  
+
+STOCK_CK_SP                                                                     
+VALID  
+
+MEMBER_CK_SP                                                                    
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+LOGIN_SP                                                                        
+VALID  
+
+LOGIN2_SP                                                                       
+VALID  
+
+TEST_NOCOPY_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+RUN_NOCOPY_SP                                                                   
+VALID  
+
+BASK_CALC_SP                                                                    
+VALID  
+
+STATUS_SP                                                                       
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PROMO_TEST_SP                                                                   
+VALID  
+
+TC_TEST_SP2                                                                     
+VALID  
+
+TC_TEST_SP1                                                                     
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PHONE_FMT_SP                                                                    
+VALID  
+
+
+ 16 rows selected 
+
+DECLARE
+	cursor cur_invalid_objects is
+select object_name, object_type from user_objects where status='INVALID';
+	rec_columns cur_invalid_objects%ROWTYPE;
+	err_status NUMERIC;
+BEGIN
+	dbms_output.enable(10000);
+	open cur_invalid_objects;
+	loop
+
+		fetch cur_invalid_objects into rec_columns;
+		EXIT WHEN cur_invalid_objects%NOTFOUND;
+
+dbms_output.put_line
+('Recompiling ' || rec_columns.object_type || '  ' || rec_columns.object_name);
+
+dbms_ddl.alter_compile(rec_columns.object_type,NULL,rec_columns.object_name);
+
+	end loop;
+	close cur_invalid_objects;
+EXCEPTION
+When others then
+begin
+	err_status := SQLCODE;
+dbms_output.put_line(' Recompilation failed : ' || SQLERRM(err_status));
+	
+if ( cur_invalid_objects%ISOPEN) then
+		CLOSE cur_invalid_objects;
+	end if;
+	
+exception when others then
+		null;
+end;
+end;
+/
+
+PL/SQL procedure successfully completed.
+
+Recompiling PROCEDURE  BB_JOBTEST
+
+SELECT object_name, status
+FROM user_objects
+WHERE object_type = 'PROCEDURE';
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+BB_JOBTEST                                                                      
+VALID  
+
+SHIP_COST_SP                                                                    
+VALID  
+
+ORDER_TOTAL_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+ORDER_TOTAL_SP2                                                                 
+VALID  
+
+STOCK_CK_SP                                                                     
+VALID  
+
+MEMBER_CK_SP                                                                    
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+LOGIN_SP                                                                        
+VALID  
+
+LOGIN2_SP                                                                       
+VALID  
+
+TEST_NOCOPY_SP                                                                  
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+RUN_NOCOPY_SP                                                                   
+VALID  
+
+BASK_CALC_SP                                                                    
+VALID  
+
+STATUS_SP                                                                       
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PROMO_TEST_SP                                                                   
+VALID  
+
+TC_TEST_SP2                                                                     
+VALID  
+
+TC_TEST_SP1                                                                     
+VALID  
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+PHONE_FMT_SP                                                                    
+VALID  
+
+
+ 16 rows selected 
+
+
+***************************************************************************************************************************************************************
+
+10-3
+
+CREATE SEQUENCE SEQ_USER START WITH 10 INCREMENT BY 1;
+
+
+--I edited tea.txt so that each each of text was divided to make it easier to read each line, so I made 3 lines 6 lines and read each line and insert each line as a variable in the table
+
+DECLARE
+fh UTL_FILE.FILE_TYPE;
+vTextOut1 VarChar2(225);
+vTextOut2 VarChar2(225);
+vTextOut3 VarChar2(225);
+vTextOut4 VarChar2(225);
+vTextOut5 VarChar2(225);
+vTextOut6 VarChar2(225);
+BEGIN
+fh := UTL_FILE.FOPEN('ORA_FILES', 'tea.txt','r');
+UTL_FILE.GET_LINE(fh, vTextOut1);
+UTL_FILE.GET_LINE(fh, vTextOut2);
+UTL_FILE.GET_LINE(fh, vTextOut3);
+UTL_FILE.GET_LINE(fh, vTextOut4);
+UTL_FILE.GET_LINE(fh, vTextOut5);
+UTL_FILE.GET_LINE(fh, vTextOut6);
+INSERT INTO BB_PRODUCT 
+   VALUES(SEQ_USER.nextval,vTextOut1,vTextOut2,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+INSERT INTO BB_PRODUCT 
+   VALUES(SEQ_USER.nextval,vTextOut3,vTextOut4,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+INSERT INTO BB_PRODUCT 
+   VALUES(SEQ_USER.nextval,vTextOut5,vTextOut6,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+UTL_FILE.FCLOSE(fh);
+end;
+
+SELECT productname, description
+FROM bb_product;
+
+
+PRODUCTNAME
+-------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+CapressoBar Model #351    
+A fully programmable pump espresso machine and 10-cup coffee maker complete with
+ GoldTone filter                                                                
+
+Capresso Ultima           
+Coffee and Espresso and Cappuccino Machine. Brews from one espresso to two six o
+unce cups of coffee                                                             
+
+Eileen 4-cup French Press 
+
+PRODUCTNAME
+-------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+A unique coffeemaker from those proud craftsmen in windy Normandy.              
+
+Coffee Grinder            
+Avoid blade grinders! This mill grinder allows you to choose a fine grind to a c
+oarse grind.                                                                    
+
+Sumatra                   
+Spicy and intense with herbal aroma.                                            
+
+
+PRODUCTNAME
+-------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+Guatamala                 
+heavy body, spicy twist, aromatic and smokey flavor.                            
+
+Columbia                  
+dry, nutty flavor and smoothness                                                
+
+Brazil                    
+well-balanced mellow flavor, a medium body with hints of cocoa and a mild, nut-l
+ike aftertaste                                                                  
+
+PRODUCTNAME
+-------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+Ethiopia                  
+distinctive berry-like flavor and aroma, reminds many of a fruity, memorable win
+e.                                                                              
+
+Espresso                  
+dense, caramel-like sweetness with a soft acidity. Roasted somewhat darker than 
+traditional Italian.                                                            
+                
+
+PRODUCTNAME
+-------------------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+Green
+lively, subtle grassy flavor                                                    
+
+Black                     
+mellow and sweet taste, smoky aroma                                             
+
+oolong                    
+smooth with fruity and floral notes                                             
+
+
+ 13 rows selected 
+ 
+***************************************************************************************************************************************************************
+
+10-4
+
+DECLARE
+fh UTL_FILE.FILE_TYPE;
+BEGIN
+fh := UTL_FILE.FOPEN('ORA_FILES', 'prod_ext.txt','w');
+
+
+   
+ FOR bb_product IN (SELECT IDPRODUCT, PRODUCTNAME, PRICE, TYPE, STOCK, ORDERED, REORDER FROM bb_product) LOOP
+        UTL_FILE.PUT_LINE (fh,'Product Id: ');
+        UTL_FILE.PUT_LINE (fh, bb_product.IDPRODUCT);
+        UTL_FILE.PUT_LINE (fh,'Product Name: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.PRODUCTNAME);
+        UTL_FILE.PUT_LINE (fh,'Product Price: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.PRICE);
+        UTL_FILE.PUT_LINE (fh,'Product Type: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.TYPE);
+        UTL_FILE.PUT_LINE (fh,'Product stocked: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.STOCK);
+        UTL_FILE.PUT_LINE (fh,'Product ordered: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.ORDERED);
+        UTL_FILE.PUT_LINE (fh,'Product reordered: ');
+        UTL_FILE.PUT_LINE (fh,bb_product.REORDER);
+        UTL_FILE.PUT_LINE (fh,'*************************** ');
+    END LOOP;
+UTL_FILE.FCLOSE(fh);
+END;
+
+PL/SQL procedure successfully completed.
+
+
+
+--prod_ext.txt output
+
+Product Id: 
+1
+Product Name: 
+CapressoBar Model #351
+Product Price: 
+99.99
+Product Type: 
+E
+Product stocked: 
+23
+Product ordered: 
+0
+Product reordered: 
+12
+*************************** 
+Product Id: 
+2
+Product Name: 
+Capresso Ultima
+Product Price: 
+129.99
+Product Type: 
+E
+Product stocked: 
+15
+Product ordered: 
+0
+Product reordered: 
+9
+*************************** 
+Product Id: 
+3
+Product Name: 
+Eileen 4-cup French Press
+Product Price: 
+32.5
+Product Type: 
+E
+Product stocked: 
+30
+Product ordered: 
+0
+Product reordered: 
+15
+*************************** 
+Product Id: 
+4
+Product Name: 
+Coffee Grinder
+Product Price: 
+28.5
+Product Type: 
+E
+Product stocked: 
+26
+Product ordered: 
+0
+Product reordered: 
+25
+*************************** 
+Product Id: 
+5
+Product Name: 
+Sumatra
+Product Price: 
+10.5
+Product Type: 
+C
+Product stocked: 
+41
+Product ordered: 
+0
+Product reordered: 
+45
+*************************** 
+Product Id: 
+6
+Product Name: 
+Guatamala
+Product Price: 
+10
+Product Type: 
+C
+Product stocked: 
+42
+Product ordered: 
+0
+Product reordered: 
+35
+*************************** 
+Product Id: 
+7
+Product Name: 
+Columbia
+Product Price: 
+10.8
+Product Type: 
+C
+Product stocked: 
+61
+Product ordered: 
+0
+Product reordered: 
+35
+*************************** 
+Product Id: 
+8
+Product Name: 
+Brazil
+Product Price: 
+10.8
+Product Type: 
+C
+Product stocked: 
+53
+Product ordered: 
+0
+Product reordered: 
+35
+*************************** 
+Product Id: 
+9
+Product Name: 
+Ethiopia
+Product Price: 
+10
+Product Type: 
+C
+Product stocked: 
+54
+Product ordered: 
+0
+Product reordered: 
+35
+*************************** 
+Product Id: 
+10
+Product Name: 
+Espresso
+Product Price: 
+10
+Product Type: 
+C
+Product stocked: 
+50
+Product ordered: 
+50
+Product reordered: 
+50
+*************************** 
+Product Id: 
+12
+Product Name: 
+Green      
+Product Price: 
+
+Product Type: 
+
+Product stocked: 
+
+Product ordered: 
+
+Product reordered: 
+
+*************************** 
+Product Id: 
+13
+Product Name: 
+Black      
+Product Price: 
+
+Product Type: 
+
+Product stocked: 
+
+Product ordered: 
+
+Product reordered: 
+
+*************************** 
+Product Id: 
+14
+Product Name: 
+oolong     
+Product Price: 
+
+Product Type: 
+
+Product stocked: 
+
+Product ordered: 
+
+Product reordered: 
+
+*************************** 
+
+
+
+

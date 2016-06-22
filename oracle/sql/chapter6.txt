@@ -1,0 +1,178 @@
+Hands-On Assignments
+Matthew Brozen
+
+1.
+
+SQL> CREATE SEQUENCE customers_customer#_seq
+  2  INCREMENT BY 1
+  3  START WITH 1021
+  4  NOCACHE
+  5  NOCYCLE;
+
+Sequence created.
+
+2.
+
+SQL> INSERT INTO customers (customer#, lastname, firstname, zip)
+  2  VALUES (customers_customer#_seq.NEXTVAL, 'shoulders', 'frank', 23567);
+
+1 row created.
+
+3. 
+
+
+
+SQL> CREATE SEQUENCE my_first_seq
+  2  START WITH 5
+  3  INCREMENT BY -3
+  4  MINVALUE 0
+  5  MAXVALUE 5
+  6  NOCYCLE;
+
+Sequence created.
+
+4.
+
+SQL> SELECT my_first_seq.NEXTVAL
+  2  FROM DUAL;
+
+   NEXTVAL
+----------
+         5
+
+SQL> SELECT my_first_seq.NEXTVAL
+  2  FROM DUAL;
+
+   NEXTVAL
+----------
+         2
+
+SQL> SELECT my_first_seq.NEXTVAL
+  2  FROM DUAL;
+SELECT my_first_seq.NEXTVAL
+*
+ERROR at line 1:
+ORA-08004: sequence MY_FIRST_SEQ.NEXTVAL goes below MINVALUE and cannot be instantiated
+
+The error is because the nextval is less then 0 which is lower then the minvalue constraint of 0.
+
+5.
+
+
+SQL> ALTER SEQUENCE my_first_seq
+  2  MINVALUE -1000;
+
+Sequence altered.
+
+6.
+
+SQL> CREATE SYNONYM NUMGEN
+  2  FOR my_first_seq;
+
+Synonym created.
+
+7.
+
+
+SQL> SELECT NUMGEN.CURRVAL
+  2  FROM DUAL;
+
+   CURRVAL
+----------
+         2
+
+SQL> DROP SYNONYM NUMGEN;
+
+Synonym dropped.
+
+
+8.
+
+SQL> CREATE BITMAP INDEX customers_state_idx
+  2  ON customers (state);
+CREATE BITMAP INDEX customers_state_idx
+*
+ERROR at line 1:
+ORA-00439: feature not enabled: Bit-mapped indexes
+
+SQL> SELECT table_name, index_name
+  2  FROM user_indexes;
+
+TABLE_NAME                     INDEX_NAME
+------------------------------ ------------------------------
+PUBLISHER                      PUBLISHER_PUBID_PK
+ORDERS                         ORDERS_ORDER#_PK
+ORDERITEMS                     ORDERITEMS_PK
+CUSTOMERS                      CUSTOMERS_CUSTOMER#_PK
+CATEGORY                       CAT_CATCODE_PK
+BOOKS                          BOOKS_ISBN_PK
+BOOKAUTHOR                     BOOKAUTHOR_PK
+AUTHOR                         AUTHOR_AUTHORID_PK
+ACCTMANAGER2                   ACCTMANAGER2_AMID_PK
+ACCTMANAGER                    ACCTMANAGER_AMID_PK
+ACCTBONUS                      ACCTBONUS_AMID_PK
+
+11 rows selected.
+
+SQL> DROP INDEX customers_customer#_PK;
+DROP INDEX customers_customer#_PK
+           *
+ERROR at line 1:
+ORA-02429: cannot drop index used for enforcement of unique/primary key
+
+9.
+
+SQL> CREATE INDEX customers_lastname_idx
+  2  ON customers (lastname);
+
+Index created.
+
+SQL> SELECT table_name, index_name
+  2  FROM user_indexes;
+
+TABLE_NAME                     INDEX_NAME
+------------------------------ ------------------------------
+PUBLISHER                      PUBLISHER_PUBID_PK
+ORDERS                         ORDERS_ORDER#_PK
+ORDERITEMS                     ORDERITEMS_PK
+CUSTOMERS                      CUSTOMERS_LASTNAME_IDX
+CUSTOMERS                      CUSTOMERS_CUSTOMER#_PK
+CATEGORY                       CAT_CATCODE_PK
+BOOKS                          BOOKS_ISBN_PK
+BOOKAUTHOR                     BOOKAUTHOR_PK
+AUTHOR                         AUTHOR_AUTHORID_PK
+ACCTMANAGER2                   ACCTMANAGER2_AMID_PK
+ACCTMANAGER                    ACCTMANAGER_AMID_PK
+ACCTBONUS                      ACCTBONUS_AMID_PK
+
+12 rows selected.
+
+SQL> DROP INDEX customers_lastname_idx;
+
+Index dropped.
+
+10.
+
+
+SQL> CREATE INDEX orders_daystoship_idx
+  2  ON orders (orderdate-shipdate);
+
+Index created.
+
+Advanced Challenge
+
+1.
+
+The three sequences I would suggest are: A sequence to generate what the amount mark up is from cost to retail so you can automatically generate the
+ mark up and not have to enter it over and over, a sequence to calculate the shipcost based on the zipcode also saving time inputing numbers, 
+a sequence to generate customer# because they are sequential and to ensure that there are no duplicates. The draw backs from implementing these changes 
+are that if the sequence is created wrong then it will continue to provide wrong information without our knowledge, and also that there could be new values
+generated that do not fit the order of the current data and create big inconsistances. The indexs I would create would be a function based index for the amount 
+of days between the order date and the ship date to easily see what items have been sitting unfullfilled easily and address
+those right away, a b-tree index for the zipcodes becaus it will allow you to see where your orders are going more easily and a function based index for the
+difference between the cost and retail so you can focus on the highest profit generating orders first. The potential draw backs from creating these indexs are
+that they could loose data which may result in your index searches being off. 
+
+
+
+
